@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:arxiv.org)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3:*)",
+      "Bash(docker --version)",
+      "Bash(export ANTHROPIC_API_KEY=\"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\")",
+      "Bash(docker info:*)",
+      "Bash(brew list:*)",
+      "Bash(/opt/homebrew/bin/python3.10 --version)",
+      "Bash(/opt/homebrew/bin/python3.10 -m pip install swebench datasets anthropic)",
+      "Bash(docker system:*)",
+      "Bash(head -c 200 experiments/verify_inputs/*.jsonl)"
+    ]
+  }
+}
