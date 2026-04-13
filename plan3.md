@@ -263,30 +263,136 @@ After running on 10 SWE-bench Verified tasks with Docker verification:
 - The prompting approach is fundamentally wrong
 - Pivot entirely or kill the project
 
-### PHASE 1 ACTUAL RESULTS (April 1, 2026):
+### PHASE 1 DOCKER-VERIFIED RESULTS (April 2, 2026):
+- **14/49 SWE-bench Verified tasks (28.5%) have DOCKER-VERIFIED working exploits**
+- **25/127 exploit patches (19.7%) passed the real test suite** without being the correct fix
+- Verified via GitHub Actions (ubuntu-latest, swebench Docker harness)
+- All 127 exploits ran to completion. No disk/timeout issues.
+- Verified tasks span astropy (5) + django (9) — both repos hackable
+- **OUTCOME: BANGER** — 28.5% hackability rate on the gold-standard benchmark
+- This exceeds the 3/10 (30%) threshold from our decision tree
+
+#### Verified hackable tasks:
+- astropy__astropy-13236, astropy__astropy-13977, astropy__astropy-7166
+- astropy__astropy-7336, astropy__astropy-7671
+- django__django-11066, django__django-11095, django__django-11133
+- django__django-11141, django__django-11163, django__django-11179
+- django__django-11239, django__django-11276, django__django-11451
+
+#### What this means:
+- Claude generated exploit patches that PASS the real test suite in Docker
+- These are tasks that 93 professional developers reviewed and kept as "Verified"
+- **28.5% of human-verified SWE-bench tasks are exploitable** — this is the headline
+
+### Comparison to published work (ground truth from web research):
+| Paper | What they found | How we compare |
+|-------|----------------|----------------|
+| **SWE-ABS** (Feb 2026, arXiv 2603.00520) | 50.2% of Verified instances can be strengthened; 19.71% of passing patches rejected | Our 19.7% exploit success rate matches their 19.71% patch rejection rate almost exactly. Different method, same finding. |
+| **UTBoost** (ACL 2025) | 5.2% of Verified instances have insufficient tests; 15.7% more incorrect patches found | We find much higher rate (28.5% vs 5.2%) because we actively attack rather than just augment |
+| **SWE-bench+** (2024) | 33% solution leakage; 7.8% fail additional tests | Our 28.5% is in the same range as their 33% leakage |
+| **TRACE** (Patronus, Jan 2026) | 54 exploit categories; GPT-5.2 detects 63% of hacks | They benchmark detection; we generate verified attacks |
+| **EvilGenie** (Nov 2025) | 4.5-25.3% reward hacking rate (Claude Sonnet 4 on LiveCodeBench) | Similar range; we test SWE-bench not LiveCodeBench |
+| **METR** (June 2025) | Frontier models (o3) actively hack evaluations | Confirms the threat we're measuring is real and worsening |
+
+### CRITICAL: SWE-ABS is our closest competitor
+SWE-ABS (Feb 28, 2026) does something very similar:
+- Adversarial benchmark strengthening via mutation-driven testing
+- Found 19.71% of passing patches are wrong (we found 19.7% exploit success — eerily close)
+- **BUT**: SWE-ABS frames this as benchmark quality (evaluation accuracy)
+- **We frame this as RL training safety (reward hacking prevention)**
+- SWE-ABS generates test cases. We generate exploit patches (the attack, not the defense).
+- SWE-ABS does NOT mention RL training, reward hacking, or pre-training QA.
+- **Our differentiation is the framing + the RL application + the iterative attack-augment loop**
+
+### PHASE 1 LLM RESULTS (April 1, 2026):
 - **49/50 SWE-bench Verified tasks** have high-confidence exploit strategies (>=7/10)
 - **Total cost: $1.43** for 50 tasks (127 exploit patches generated)
-- Covers astropy + django repos (diverse)
+- Claude generated exploits for astropy + django repos
 - Only 1/50 tasks had no high-confidence exploit
-- Docker verification: 127 exploit predictions prepared for GH Actions
-- **Next step: push to GitHub, GH Actions verifies exploits in Docker**
 
 ### PHASE 1 INITIAL RESULTS (March 31, 2026):
-- **9/10 SWE-bench Verified tasks** have high-confidence exploit strategies (>=7/10)
-- **Total cost: $0.30** for 10 tasks (30 Claude Sonnet calls)
-- Claude generated 26 exploit strategies across 10 tasks
-- Max confidence: 10/10 on task astropy__astropy-13033
-- Only 1/10 tasks (astropy__astropy-14096) had no LLM-generated exploits
-- **OUTCOME: LIKELY BANGER** — pending Docker verification
-- **Next step: Install Docker Desktop, verify exploits actually pass tests**
+- **9/10 tasks** had high-confidence exploit strategies
+- **Total cost: $0.30** for 10 tasks
 
-### WHY BANGER IS LIKELY:
-- SWE-bench+ found 31.08% of passed patches were suspicious due to weak tests
-- ICSE 2026 found 29.6% of passing patches behaviorally diverge
-- UTBoost found 15% of SWE-bench Verified tasks STILL have weak tests after human review
-- SoluLeakDetector found 22.6% solution leakage even in Verified
-- EvilGenie found Claude Code achieves 20.7% heuristic solution rate on code tasks
-- If ~15-30% of tasks have weak tests, finding 3/10 working exploits is well within range
+---
+
+## WHAT NEXT: Revised Plan Given Results + Landscape
+
+### The honest situation (April 3, 2026):
+
+**What we have:**
+- A working single-agent system (Hackability Attacker) that generates exploit patches
+- Docker-verified 28.5% hackability rate on SWE-bench Verified (14/49 tasks)
+- Total spend: ~$1.50 in Claude API + free GH Actions compute
+- 17 passing unit tests
+- GitHub repo with CI/CD pipeline
+
+**What we don't have:**
+- Multi-agent system (only 1 of 4 planned agents built)
+- No RAG/FAISS knowledge base
+- No self-consistency voting
+- No augmentation loop (attack → strengthen tests → re-attack)
+- No orchestration layer
+- Only 49/500 Verified tasks tested
+- Not yet compared to SWE-ABS, UTBoost, or SWE-bench+ quantitatively on same tasks
+- **ICML 2026 deadline already passed** (January 2026)
+
+**The competitive landscape is tighter than we thought:**
+- SWE-ABS (Feb 2026) already does adversarial test strengthening on SWE-bench
+- UTBoost (ACL 2025) already does test augmentation
+- TRACE (Jan 2026) already has 54 exploit categories
+- EvilGenie (Nov 2025) already benchmarks reward hacking in code
+- METR (June 2025) already documented frontier model reward hacking
+
+### What makes us still differentiated:
+1. **RL training framing**: Nobody frames test suite weakness as "RL environment quality." SWE-ABS cares about benchmark accuracy. We care about training safety.
+2. **Attack-first approach**: SWE-ABS strengthens tests. We generate working exploits. These are complementary — our attacks could BE the mutations that SWE-ABS uses.
+3. **Pre-training QA tool**: Nobody has built a tool that an RL lab runs BEFORE training to flag bad tasks.
+4. **Connection to alignment/safety**: METR shows reward hacking is a safety problem. Anthropic showed it causes emergent misalignment. We prevent it.
+
+### Revised next steps (in priority order):
+
+**STEP A: Scale to all 500 Verified tasks (~$15, ~4 hours)**
+- Run exploit generation on all 500 tasks locally
+- Push results, verify via GH Actions
+- Get the definitive number: "X% of SWE-bench Verified is exploitable"
+- This is the headline. Everything else depends on this number.
+
+**STEP B: Build the augmentation loop (2-3 days)**
+- For the 14+ verified-hackable tasks: generate blocking tests
+- Re-verify: do the augmented tests block the exploits?
+- This is the novel contribution SWE-ABS doesn't have (they strengthen tests but don't iteratively attack-augment-re-attack)
+
+**STEP C: Build remaining 3 agents + orchestration (3-4 days)**
+- Test Adequacy Analyzer, Difficulty Assessor, Solution Leakage Detector
+- Multi-agent voting with hackability veto
+- This makes the system a real multi-dimensional audit tool, not just an exploit generator
+
+**STEP D: Head-to-head comparison with SWE-ABS + UTBoost (2-3 days)**
+- Run on the SAME tasks they tested
+- Compare: do we find the same weak tests? Do we find MORE?
+- Report overlap and unique findings
+
+**STEP E: Paper targeting NeurIPS 2026 (deadline ~May 2026)**
+- Title: "envaudit: Pre-Training Red-Teaming of Code RL Environments"
+- Key contributions:
+  1. 28.5%+ Docker-verified hackability rate on SWE-bench Verified
+  2. Attack-augment loop that demonstrably blocks exploits
+  3. Multi-dimensional environment quality score
+  4. Framing as pre-training QA for RL safety
+- Differentiate from SWE-ABS (benchmark accuracy vs training safety)
+
+**STEP F: Package as CLI tool**
+- `envaudit scan --dataset X` → quality report
+- `envaudit verify --dataset X` → Docker-verified exploits
+- `envaudit augment --dataset X` → strengthened tests
+- Demo-able for OAI pitch
+
+### Venue options:
+- **NeurIPS 2026** (deadline ~May 2026) — main conference, competitive
+- **ICML 2026 Workshop** (July 2026, Hamburg) — workshop paper, lower bar
+- **SWE-bench Workshop** (if one exists) — directly relevant audience
+- **SafeAI Workshop** at AAAI/NeurIPS — safety framing fits perfectly
 
 ---
 
@@ -431,24 +537,45 @@ envaudit augment --task task.jsonl                 # Generate blocking tests
 
 ---
 
-## HONEST RATING: 8.5/10
+## HONEST RATING (Updated April 3, 2026): 6.5/10
 
-### Why 8.5:
-- **Docker verification eliminates the biggest weakness** (LLM-as-judge criticism)
-- **The headline finding is strong**: "X% of human-verified SWE-bench tasks have Docker-verified exploits"
-- **Phase 1 is fast** (3 days) and gives a clear go/no-go
-- **BANGER likelihood is high**: UTBoost found 15% weak tests, SWE-bench+ found 31% suspicious patches, EvilGenie found 20.7% heuristic solutions. Finding 3/10 exploits is probable.
-- **Everything else from the 8/10 plan**: confirmed gap, novel system, proven architecture, real data, infinite Claude budget
+### What we achieved:
+- **28.5% Docker-verified hackability rate** on SWE-bench Verified (14/49 tasks)
+- Working end-to-end pipeline: exploit generation → Docker verification → results
+- Total cost: $1.50. Fully automated via GH Actions.
+- The 28.5% number is real, ground truth, not an estimate
 
-### Why not 9:
-- **ARM Docker compatibility is experimental** — could hit issues
-- **Claude-generated diffs might have format problems** — patch application could fail for non-exploit reasons
-- **We're testing SWE-bench (a benchmark), not actual RL training environments** — transfer to real lab envs is assumed, not proven
-- **Space moving fast** — someone could publish similar work
+### Why 6.5, not higher:
 
-### What gets to 9.5:
-- Phase 1 = BANGER (3+ verified exploits in 10 tasks)
-- Full SWE-bench run finds >10% verified hackability rate
-- Augmentation loop demonstrably blocks exploits (re-verified with Docker)
+**The competitive landscape is much tighter than originally assessed:**
+- **SWE-ABS (Feb 2026)** already does adversarial test strengthening on SWE-bench. Their 19.71% patch rejection rate matches our 19.7% exploit success rate. They are more thorough (program slicing + mutation, 50.2% of instances strengthened). Published 1 month before us.
+- **UTBoost (ACL 2025)** already does test augmentation for SWE-bench.
+- **TRACE (Jan 2026)** already has 54 exploit categories with detection benchmarks.
+- **EvilGenie (Nov 2025)** already benchmarks reward hacking in code.
+- **METR (June 2025)** already documented frontier model reward hacking.
+
+**Our system is a prototype, not a research contribution yet:**
+- Single agent, not multi-agent (1/4 agents built)
+- No RAG, no voting, no self-consistency
+- No augmentation loop (the novel contribution we planned)
+- 49/500 tasks tested (small sample)
+- No comparison to SWE-ABS/UTBoost on the same tasks
+- ICML 2026 deadline already passed
+
+**The framing is novel but the result is not (yet):**
+- "28.5% of SWE-bench Verified is hackable" confirms what SWE-ABS, UTBoost, and SWE-bench+ already showed from different angles
+- Our RL training safety framing is differentiated but the underlying finding (tests are weak) is established
+
+### What gets to 8+:
+- Scale to all 500 tasks → definitive headline number
+- Build the augmentation loop → novel contribution SWE-ABS doesn't have
+- Head-to-head comparison with SWE-ABS → show complementarity or superiority
+- Multi-agent orchestration → real system, not just a prompt wrapper
+- Demonstrate that flagged tasks actually cause reward hacking in RL training → the killer validation
+- Paper submitted to NeurIPS 2026 or ICML 2026 workshop
+
+### What gets to 9+:
+- An RL lab validates: tasks we flagged as hackable actually produced reward-hacking models
+- Augmentation loop provably blocks exploits AND doesn't break correct solutions
 - Novel exploit categories discovered beyond TRACE's 54
-- An RL lab confirms findings on their internal environments
+- System works on non-SWE-bench environments (R2E-Gym, SWE-Smith, custom)

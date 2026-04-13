@@ -1,0 +1,1015 @@
+{
+  "total_tasks": 50,
+  "verdict_counts": {
+    "KEEP": 38,
+    "FIX": 11,
+    "DROP": 1
+  },
+  "mean_eqs": 0.8063,
+  "dimensions_available": {
+    "verifier": 50,
+    "exploit": 49,
+    "hybrid": 49,
+    "difficulty": 50
+  },
+  "per_task": {
+    "astropy__astropy-12907": {
+      "eqs": 0.9866,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.9108
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-13033": {
+      "eqs": 0.7922,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.0588
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        },
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 1.5%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "astropy__astropy-13236": {
+      "eqs": 0.5686,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.8,
+        "difficulty": 0.3016
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 1 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "astropy__astropy-13398": {
+      "eqs": 0.85,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "astropy__astropy-13453": {
+      "eqs": 0.9999,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.9996
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-13579": {
+      "eqs": 0.9738,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.8252
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-13977": {
+      "eqs": 0.6405,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.8775,
+        "exploit": 0.6667,
+        "hybrid": 0.6667,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 25% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "high",
+          "description": "33% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Add blocking tests for the specific exploit strategies that succeeded"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        },
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "astropy__astropy-14096": {
+      "eqs": 0.9807,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.8716
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14182": {
+      "eqs": 0.871,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 0.975,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.198
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14309": {
+      "eqs": 0.7837,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.5,
+        "difficulty": 0.2244
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-14365": {
+      "eqs": 0.9026,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.3504
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14369": {
+      "eqs": 0.8569,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 0.975,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.5488
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-14508": {
+      "eqs": 0.9978,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.9856
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14539": {
+      "eqs": 0.9719,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.8128
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14598": {
+      "eqs": 0.8797,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.198
+      },
+      "weaknesses": []
+    },
+    "astropy__astropy-14995": {
+      "eqs": 0.803,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.4,
+        "difficulty": 0.4868
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 3 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-7166": {
+      "eqs": 0.5626,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.5,
+        "difficulty": 0.6612
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "astropy__astropy-7336": {
+      "eqs": 0.5195,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.5,
+        "difficulty": 0.3744
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "astropy__astropy-7606": {
+      "eqs": 0.7597,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.4,
+        "difficulty": 0.198
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 3 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-7671": {
+      "eqs": 0.5227,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.4,
+        "difficulty": 0.5288
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-8707": {
+      "eqs": 0.7915,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.5,
+        "difficulty": 0.2764
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "astropy__astropy-8872": {
+      "eqs": 0.7876,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.5,
+        "difficulty": 0.2508
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-10097": {
+      "eqs": 0.9171,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.892
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-10554": {
+      "eqs": 0.85,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "django__django-10880": {
+      "eqs": 0.9658,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.772
+      },
+      "weaknesses": []
+    },
+    "django__django-10914": {
+      "eqs": 0.9198,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.4652
+      },
+      "weaknesses": []
+    },
+    "django__django-10973": {
+      "eqs": 0.8851,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.6784
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-10999": {
+      "eqs": 0.7833,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        },
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "django__django-11066": {
+      "eqs": 0.5531,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.8,
+        "difficulty": 0.198
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 1 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "django__django-11087": {
+      "eqs": 0.85,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "django__django-11095": {
+      "eqs": 0.699,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.8367,
+        "exploit": 0.5,
+        "hybrid": 1.0,
+        "difficulty": 0.3744
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 33% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "high",
+          "description": "50% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Add blocking tests for the specific exploit strategies that succeeded"
+        }
+      ]
+    },
+    "django__django-11099": {
+      "eqs": 0.817,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.2244
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-11119": {
+      "eqs": 0.8837,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.2244
+      },
+      "weaknesses": []
+    },
+    "django__django-11133": {
+      "eqs": 0.3936,
+      "verdict": "DROP",
+      "dimension_scores": {
+        "verifier": 0.625,
+        "exploit": 0.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.2764
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "critical",
+          "description": "Verifier accepts 75% of incorrect patches",
+          "fixable": true,
+          "action": "Add more discriminative test assertions targeting the specific exploit patterns"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "100% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "django__django-11138": {
+      "eqs": 0.8974,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 0.975,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.3744
+      },
+      "weaknesses": []
+    },
+    "django__django-11141": {
+      "eqs": 0.5396,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 0.5,
+        "difficulty": 0.508
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "django__django-11149": {
+      "eqs": 0.9699,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.7996
+      },
+      "weaknesses": []
+    },
+    "django__django-11163": {
+      "eqs": 0.7486,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 0.8775,
+        "exploit": 0.6667,
+        "hybrid": 1.0,
+        "difficulty": 0.2764
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 25% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "high",
+          "description": "33% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Add blocking tests for the specific exploit strategies that succeeded"
+        }
+      ]
+    },
+    "django__django-11179": {
+      "eqs": 0.5338,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7542,
+        "exploit": 0.0,
+        "hybrid": 1.0,
+        "difficulty": 0.4652
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "100% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        }
+      ]
+    },
+    "django__django-11206": {
+      "eqs": 0.9582,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "difficulty": 0.8608
+      },
+      "weaknesses": []
+    },
+    "django__django-11211": {
+      "eqs": 0.9823,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.882
+      },
+      "weaknesses": []
+    },
+    "django__django-11239": {
+      "eqs": 0.7409,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 0.8775,
+        "exploit": 0.6667,
+        "hybrid": 0.5,
+        "difficulty": 0.892
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 25% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "high",
+          "description": "33% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Add blocking tests for the specific exploit strategies that succeeded"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 1 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 1 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-11265": {
+      "eqs": 0.9774,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.8496
+      },
+      "weaknesses": []
+    },
+    "django__django-11276": {
+      "eqs": 0.4657,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.625,
+        "exploit": 0.0,
+        "hybrid": 0.6667,
+        "difficulty": 0.7576
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "critical",
+          "description": "Verifier accepts 75% of incorrect patches",
+          "fixable": true,
+          "action": "Add more discriminative test assertions targeting the specific exploit patterns"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "100% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        },
+        {
+          "dimension": "hybrid",
+          "severity": "high",
+          "description": "Judge disagrees with tests on 2 patches (tests too permissive)",
+          "fixable": true,
+          "action": "Tests accept patches that an independent judge deems incorrect"
+        }
+      ]
+    },
+    "django__django-11292": {
+      "eqs": 0.9492,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.6612
+      },
+      "weaknesses": []
+    },
+    "django__django-11299": {
+      "eqs": 0.9992,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.9944
+      },
+      "weaknesses": []
+    },
+    "django__django-11333": {
+      "eqs": 0.8995,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.5,
+        "difficulty": 0.9964
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        }
+      ]
+    },
+    "django__django-11400": {
+      "eqs": 0.75,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 0.5,
+        "difficulty": 0.0
+      },
+      "weaknesses": [
+        {
+          "dimension": "hybrid",
+          "severity": "medium",
+          "description": "Tests reject 2 patches that an independent judge deems correct",
+          "fixable": true,
+          "action": "Tests may enforce specific implementation details \u2014 consider relaxing"
+        },
+        {
+          "dimension": "difficulty",
+          "severity": "high",
+          "description": "Task too hard (solve rate 0.0%) \u2014 near-zero gradient signal",
+          "fixable": false,
+          "action": "Remove from training set or simplify the task"
+        }
+      ]
+    },
+    "django__django-11433": {
+      "eqs": 0.9165,
+      "verdict": "KEEP",
+      "dimension_scores": {
+        "verifier": 1.0,
+        "exploit": 1.0,
+        "hybrid": 1.0,
+        "difficulty": 0.4432
+      },
+      "weaknesses": []
+    },
+    "django__django-11451": {
+      "eqs": 0.6651,
+      "verdict": "FIX",
+      "dimension_scores": {
+        "verifier": 0.7525,
+        "exploit": 0.3333,
+        "hybrid": 1.0,
+        "difficulty": 0.6784
+      },
+      "weaknesses": [
+        {
+          "dimension": "verifier",
+          "severity": "high",
+          "description": "Verifier accepts 50% of incorrect patches",
+          "fixable": true,
+          "action": "Add test cases that distinguish the exploit from the gold patch"
+        },
+        {
+          "dimension": "exploit",
+          "severity": "critical",
+          "description": "67% of adversarial exploits pass the test suite",
+          "fixable": true,
+          "action": "Test suite needs fundamental strengthening \u2014 exploits consistently bypass it"
+        }
+      ]
+    }
+  }
+}

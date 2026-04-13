@@ -1,0 +1,2055 @@
+{
+  "total_tasks": 49,
+  "total_cost_usd": 2.1593,
+  "aggregate": {
+    "tp": 59,
+    "fp": 15,
+    "fn": 26,
+    "tn": 125,
+    "precision": 0.7973,
+    "recall": 0.6941,
+    "f1": 0.7421,
+    "false_positive_rate": 0.1071,
+    "false_negative_rate": 0.3059,
+    "tasks_with_fp": 9,
+    "tasks_with_fn": 16
+  },
+  "per_task": {
+    "astropy__astropy-12907": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-12907_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-12907_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-12907_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-12907_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13033": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13033_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13033_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13033_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-13033_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13236": {
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "tn": 2,
+      "precision": 0.6667,
+      "recall": 1.0,
+      "f1": 0.8,
+      "false_positive_rate": 0.3333,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13236_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13236_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13236_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13236_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-13236_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13398": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 3,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13398_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13398_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13398_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13453": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13453_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13453_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13453_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13453_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13453_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13579": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13579_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13579_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13579_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13579_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-13579_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-13977": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 2,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-13977_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13977_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-13977_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-13977_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-13977_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14096": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14096_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14096_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14096_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14096_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14096_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14182": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14182_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14182_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14182_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14182_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14309": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.6667,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14309_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14309_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14309_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14309_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14309_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14365": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14365_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14365_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14365_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14365_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14365_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14369": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14369_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14369_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14369_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14369_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14508": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14508_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14508_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14508_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14508_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14539": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14539_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14539_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14539_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14539_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14598": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14598_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14598_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14598_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-14598_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-14995": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 3,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.75,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-14995_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-14995_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14995_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14995_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-14995_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-7166": {
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "tn": 2,
+      "precision": 0.3333,
+      "recall": 1.0,
+      "f1": 0.5,
+      "false_positive_rate": 0.5,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-7166_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-7166_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7166_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7166_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-7166_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-7336": {
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "tn": 2,
+      "precision": 0.3333,
+      "recall": 1.0,
+      "f1": 0.5,
+      "false_positive_rate": 0.5,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-7336_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-7336_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-7336_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7336_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7336_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-7606": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 3,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.75,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-7606_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-7606_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-7606_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-7606_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-7606_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-7671": {
+      "tp": 1,
+      "fp": 2,
+      "fn": 1,
+      "tn": 1,
+      "precision": 0.3333,
+      "recall": 0.5,
+      "f1": 0.4,
+      "false_positive_rate": 0.6667,
+      "false_negative_rate": 0.5,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-7671_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-7671_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7671_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-7671_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "astropy__astropy-7671_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-8707": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.6667,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-8707_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-8707_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-8707_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-8707_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-8707_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "astropy__astropy-8872": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.6667,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "astropy__astropy-8872_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "astropy__astropy-8872_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "astropy__astropy-8872_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-8872_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "astropy__astropy-8872_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10097": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-10097_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10097_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10097_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-10097_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10554": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-10554_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10554_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10554_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10554_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10880": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-10880_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10880_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10880_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10880_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10880_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10914": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-10914_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10914_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10914_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10914_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10914_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10973": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-10973_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10973_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-10973_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10973_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10973_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-10999": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-10999_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-10999_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10999_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-10999_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-10999_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11066": {
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "tn": 2,
+      "precision": 0.6667,
+      "recall": 1.0,
+      "f1": 0.8,
+      "false_positive_rate": 0.3333,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11066_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11066_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11066_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11066_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11066_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11087": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11087_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11087_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11087_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11087_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11087_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11095": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11095_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11095_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11095_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11095_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11099": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 1,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.5,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11099_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11099_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11099_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11099_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11119": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11119_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11119_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11119_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11119_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11119_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11133": {
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "tn": 1,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6667,
+      "false_positive_rate": 0.6667,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11133_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11133_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11133_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11133_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11133_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11138": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11138_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11138_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11138_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11138_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11141": {
+      "tp": 1,
+      "fp": 2,
+      "fn": 0,
+      "tn": 2,
+      "precision": 0.3333,
+      "recall": 1.0,
+      "f1": 0.5,
+      "false_positive_rate": 0.5,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11141_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11141_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11141_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11141_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11141_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11149": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11149_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11149_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11149_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11149_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11163": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11163_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11163_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11163_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11163_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11163_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11179": {
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "tn": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 3,
+      "entries": [
+        {
+          "patch_id": "django__django-11179_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11179_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11179_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11211": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11211_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11211_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11211_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11211_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11239": {
+      "tp": 1,
+      "fp": 1,
+      "fn": 1,
+      "tn": 2,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "false_positive_rate": 0.3333,
+      "false_negative_rate": 0.5,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11239_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11239_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11239_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11239_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11239_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11265": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11265_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11265_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11265_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11265_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11265_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11276": {
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "tn": 1,
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6667,
+      "false_positive_rate": 0.6667,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11276_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11276_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11276_exploit_1",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11276_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": false,
+          "category": "FP"
+        },
+        {
+          "patch_id": "django__django-11276_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11292": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11292_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11292_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11292_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11292_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11299": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11299_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11299_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11299_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11299_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11299_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11333": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.6667,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11333_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11333_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11333_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11333_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11333_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11400": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 2,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.6667,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11400_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11400_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11400_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11400_exploit_2",
+          "verifier_pass": false,
+          "judge_correct": true,
+          "category": "FN"
+        },
+        {
+          "patch_id": "django__django-11400_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11433": {
+      "tp": 1,
+      "fp": 0,
+      "fn": 0,
+      "tn": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 4,
+      "entries": [
+        {
+          "patch_id": "django__django-11433_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11433_exploit_0",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11433_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11433_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    },
+    "django__django-11451": {
+      "tp": 3,
+      "fp": 0,
+      "fn": 0,
+      "tn": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0,
+      "n_judged": 5,
+      "entries": [
+        {
+          "patch_id": "django__django-11451_gold",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11451_exploit_0",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11451_exploit_1",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        },
+        {
+          "patch_id": "django__django-11451_exploit_2",
+          "verifier_pass": true,
+          "judge_correct": true,
+          "category": "TP"
+        },
+        {
+          "patch_id": "django__django-11451_trivial",
+          "verifier_pass": false,
+          "judge_correct": false,
+          "category": "TN"
+        }
+      ]
+    }
+  }
+}

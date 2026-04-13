@@ -1,0 +1,753 @@
+{
+  "total_iterations": 3,
+  "converged": true,
+  "initial_mean_eqs": 0.57,
+  "final_mean_eqs": 0.7908,
+  "total_improvement": 0.2208,
+  "total_cost_usd": 0.5318,
+  "tasks_upgraded_total": 11,
+  "convergence_curve": [
+    0.57,
+    0.6987,
+    0.7785,
+    0.7908
+  ],
+  "iterations": [
+    {
+      "iteration": 1,
+      "tasks_targeted": 11,
+      "augmentations_generated": 33,
+      "tasks_improved": 11,
+      "tasks_upgraded": 4,
+      "mean_eqs_before": 0.57,
+      "mean_eqs_after": 0.6987,
+      "improvement": 0.1287,
+      "cost_usd": 0.3134,
+      "per_task": [
+        {
+          "instance_id": "astropy__astropy-13236",
+          "eqs_before": 0.5686,
+          "eqs_after": 0.7051,
+          "improvement": 0.1365,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_structured_array_auto_transform_in_helper_function():\n    \"\"\"Test that structured arrays are auto-transformed when added via helper functions.\n    \n    This blocks exploits that use stack frame inspection or completely remove\n    the auto-transform logic, as they would fail when the table creation\n    happens outside the direct test context.\n    \"\"\"\n    def create_table_with_structured_array():\n        # This helper function simulates real-world usage where\n        # table creation happens in a different call stack\n        structured_data = np.array([(1, 'x'), (2, 'y')], \n                                 dtype=[('num', 'i4'), ('letter', 'U1')])\n        t = Table()\n        t['data'] = structured_data\n        return t\n    \n    # Call the helper function\n    table = create_table_with_structured_array()\n    \n    # The structured array should be auto-transformed to NdarrayMixin\n    # when not explicitly wrapped in Column\n    from astropy.table.mixins import NdarrayMixin\n    assert isinstance(table['data'], NdarrayMixin), \\\n        \"Structured array should be auto-transformed to NdarrayMixin in helper function context\"",
+              "rationale": "This test blocks both exploits by testing auto-transform behavior in a helper function context. Exploit 0 (complete removal) would fail because no auto-transform occurs. Exploit 1 (stack inspection) would fail because the test function name isn't in the stack when the helper executes.",
+              "targets": [
+                "astropy__astropy-13236_exploit_0",
+                "astropy__astropy-13236_exploit_2"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_structured_array_transform_with_different_test_name():\n    \"\"\"Test structured array behavior with a test name not in the bypass list.\n    \n    This specifically targets exploit 1 which only bypasses for specific\n    test function names.\n    \"\"\"\n    from astropy.table.mixins import NdarrayMixin\n    \n    # Create a structured array\n    data = np.array([(10, 'a', 1.5), (20, 'b', 2.5)],\n                   dtype=[('id', 'i4'), ('name', 'U1'), ('value', 'f4')])\n    \n    # Add to table - should be auto-transformed to NdarrayMixin\n    t = Table()\n    t['structured'] = data\n    \n    # Verify it was transformed to NdarrayMixin (not Column)\n    assert isinstance(t['structured'], NdarrayMixin), \\\n        \"Structured array should be auto-transformed to NdarrayMixin\"\n    \n    # Verify data integrity\n    assert t['structured'][0]['id'] == 10\n    assert t['structured'][1]['name'] == 'b'\n    assert t['structured'][0]['value'] == 1.5",
+              "rationale": "This test has a different function name that wouldn't be in exploit 1's bypass list, so the stack inspection bypass wouldn't trigger. Exploit 0 would also fail since it removes auto-transform entirely.",
+              "targets": [
+                "astropy__astropy-13236_exploit_0",
+                "astropy__astropy-13236_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_nested_function_structured_array_behavior():\n    \"\"\"Test structured array auto-transform in nested function calls.\n    \n    This creates a more complex call stack that would break stack-inspection\n    based bypasses while ensuring the auto-transform still works correctly.\n    \"\"\"\n    from astropy.table.mixins import NdarrayMixin\n    \n    def level_two():\n        def level_one():\n            # Create structured array deep in call stack\n            arr = np.array([(100, 'deep'), (200, 'nest')],\n                          dtype=[('depth', 'i4'), ('location', 'U4')])\n            table = Table()\n            table['nested_data'] = arr\n            return table\n        return level_one()\n    \n    result_table = level_two()\n    \n    # Should still be auto-transformed despite nested calls\n    assert isinstance(result_table['nested_data'], NdarrayMixin), \\\n        \"Auto-transform should work in nested function calls\"\n    \n    # Verify the data is accessible\n    assert result_table['nested_data'][0]['depth'] == 100\n    assert result_table['nested_data'][1]['location'] == 'nest'",
+              "rationale": "This test creates a complex nested call stack that would confuse stack inspection approaches in exploit 1, while exploit 0 would fail because it removes the auto-transform entirely. The gold patch should handle this correctly.",
+              "targets": [
+                "astropy__astropy-13236_exploit_0",
+                "astropy__astropy-13236_exploit_2"
+              ],
+              "confidence": 0.88
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "astropy__astropy-13977",
+          "eqs_before": 0.6405,
+          "eqs_after": 0.773,
+          "improvement": 0.1325,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_duck_type_with_compatible_units_should_work(self):\n    \"\"\"Test that duck types with compatible units still work properly.\"\"\"\n    @dataclasses.dataclass\n    class CompatibleDuck:\n        data: u.Quantity\n        \n        @property\n        def unit(self):\n            return self.data.unit\n            \n        def __array_ufunc__(self, function, method, *inputs, **kwargs):\n            # This duck type should work with compatible units\n            return NotImplemented\n    \n    # Create a duck type with the same units as a Quantity\n    duck = CompatibleDuck(1 * u.meter)\n    quantity = 2 * u.meter\n    \n    # This should work - both have compatible units (meter)\n    # The gold patch will attempt conversion, find they're compatible, and proceed\n    # The exploit will return NotImplemented immediately, preventing the operation\n    result = quantity + duck\n    assert isinstance(result, u.Quantity)\n    assert result.value == 3\n    assert result.unit == u.meter",
+              "rationale": "This test blocks exploit_0 because the exploit returns NotImplemented immediately for any duck type with __array_ufunc__ and unit attributes, even when the units are compatible. The gold patch would properly attempt unit conversion, find the units are compatible, and allow the operation to proceed.",
+              "targets": [
+                "astropy__astropy-13977_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_duck_type_unit_conversion_attempted(self):\n    \"\"\"Test that unit conversion is properly attempted for duck types.\"\"\"\n    @dataclasses.dataclass\n    class ConvertibleDuck:\n        data: u.Quantity\n        \n        @property\n        def unit(self):\n            return self.data.unit\n            \n        def __array_ufunc__(self, function, method, *inputs, **kwargs):\n            return NotImplemented\n    \n    # Create duck type with millimeters, quantity with meters\n    duck = ConvertibleDuck(1000 * u.millimeter)  # 1000 mm = 1 m\n    quantity = 1 * u.meter\n    \n    # The gold patch should attempt unit conversion and succeed\n    # The exploit returns NotImplemented immediately without trying conversion\n    result = quantity + duck\n    assert isinstance(result, u.Quantity)\n    assert result.value == 2  # 1 m + 1000 mm = 2 m\n    assert result.unit == u.meter",
+              "rationale": "This test blocks exploit_0 because it tests unit conversion between compatible but different units (meters and millimeters). The exploit would return NotImplemented immediately, while the gold patch would attempt conversion, succeed, and perform the operation.",
+              "targets": [
+                "astropy__astropy-13977_exploit_1"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_duck_type_without_unit_attribute(self):\n    \"\"\"Test duck types without unit attribute are handled correctly.\"\"\"\n    @dataclasses.dataclass\n    class DuckWithoutUnit:\n        data: u.Quantity\n        \n        def __array_ufunc__(self, function, method, *inputs, **kwargs):\n            return NotImplemented\n    \n    # Duck type has __array_ufunc__ but no unit attribute\n    duck = DuckWithoutUnit(1 * u.meter)\n    quantity = 2 * u.meter\n    \n    # Both gold patch and exploit should handle this case\n    # But this tests the boundary condition of the exploit's check\n    with pytest.raises((TypeError, ValueError)):\n        quantity + duck",
+              "rationale": "This test ensures that the exploit's condition checking for 'unit' attribute works correctly and doesn't have false positives. It also tests edge cases in duck type detection.",
+              "targets": [
+                "astropy__astropy-13977_exploit_1"
+              ],
+              "confidence": 0.8
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "astropy__astropy-7166",
+          "eqs_before": 0.5626,
+          "eqs_after": 0.6991,
+          "improvement": 0.1365,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_inherit_docstrings_multiple_properties():\n    \"\"\"Test that docstring inheritance works for multiple properties with different names.\"\"\"\n    from astropy.utils.misc import InheritDocstrings\n    \n    class Base(metaclass=InheritDocstrings):\n        @property\n        def foo_prop(self):\n            \"\"\"FOO_PROP docstring\"\"\"\n            return 1\n            \n        @property\n        def baz_prop(self):\n            \"\"\"BAZ_PROP docstring\"\"\"\n            return 2\n    \n    class Subclass(Base):\n        @property\n        def foo_prop(self):\n            return 10\n            \n        @property\n        def baz_prop(self):\n            return 20\n    \n    if Base.foo_prop.__doc__ is not None:\n        assert Subclass.foo_prop.__doc__ == \"FOO_PROP docstring\"\n    if Base.baz_prop.__doc__ is not None:\n        assert Subclass.baz_prop.__doc__ == \"BAZ_PROP docstring\"",
+              "rationale": "This test blocks both exploits because they only handle the specific 'bar' property name. Exploit 0 hardcodes 'BAR' for 'bar', and Exploit 1 has a specific check for key == 'bar'. This test uses different property names (foo_prop, baz_prop) and different docstrings, which the exploits won't handle.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_inherit_docstrings_property_different_docstring():\n    \"\"\"Test that property docstring inheritance works with different docstring content.\"\"\"\n    from astropy.utils.misc import InheritDocstrings\n    \n    class Base(metaclass=InheritDocstrings):\n        @property\n        def my_property(self):\n            \"\"\"This is a custom docstring for my_property\"\"\"\n            return \"base_value\"\n    \n    class Subclass(Base):\n        @property\n        def my_property(self):\n            return \"subclass_value\"\n    \n    if Base.my_property.__doc__ is not None:\n        assert Subclass.my_property.__doc__ == \"This is a custom docstring for my_property\"",
+              "rationale": "This test blocks both exploits by using a property with a different name ('my_property' instead of 'bar') and a different docstring content. Exploit 0 hardcodes 'BAR' specifically, and Exploit 1 only checks for key == 'bar', so both will fail to inherit this docstring.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_inherit_docstrings_property_chain():\n    \"\"\"Test that property docstring inheritance works through multiple inheritance levels.\"\"\"\n    from astropy.utils.misc import InheritDocstrings\n    \n    class GrandParent(metaclass=InheritDocstrings):\n        @property\n        def inherited_prop(self):\n            \"\"\"GrandParent docstring\"\"\"\n            return 1\n    \n    class Parent(GrandParent):\n        @property\n        def inherited_prop(self):\n            return 2\n    \n    class Child(Parent):\n        @property\n        def inherited_prop(self):\n            return 3\n    \n    if GrandParent.inherited_prop.__doc__ is not None:\n        assert Parent.inherited_prop.__doc__ == \"GrandParent docstring\"\n        assert Child.inherited_prop.__doc__ == \"GrandParent docstring\"",
+              "rationale": "This test blocks both exploits by using a property with a different name ('inherited_prop') and testing inheritance through multiple levels. The exploits are hardcoded to only work with 'bar' properties, so they won't handle this case. Additionally, it tests the inheritance chain behavior that the gold patch should handle correctly.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.88
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "astropy__astropy-7336",
+          "eqs_before": 0.5195,
+          "eqs_after": 0.6545,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_constructor_with_none_annotation():\n    \"\"\"Test that constructors with -> None annotation work correctly.\"\"\"\n    import astropy.units as u\n    \n    class TestClass:\n        @u.quantity_input\n        def __init__(self, voltage: u.V) -> None:\n            self.voltage = voltage\n    \n    # This should work without raising AttributeError\n    obj = TestClass(5.0 * u.V)\n    assert obj.voltage.value == 5.0\n    assert obj.voltage.unit == u.V",
+              "rationale": "This test blocks both exploits by testing the exact scenario from the problem description. Exploit 0 might fail if the string representation of None type annotation isn't exactly 'None', and exploit 1 would work but for the wrong reasons.",
+              "targets": [
+                "astropy__astropy-7336_exploit_1",
+                "astropy__astropy-7336_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_function_with_none_return_annotation_and_unit_return():\n    \"\"\"Test function with None annotation that actually returns a quantity.\"\"\"\n    import astropy.units as u\n    import pytest\n    \n    # This should raise an error because the function returns a quantity\n    # but is annotated to return None\n    @u.quantity_input\n    def bad_function(x: u.m) -> None:\n        return x * 2  # Returns a quantity, not None\n    \n    with pytest.raises(AttributeError):\n        # This should fail because we're trying to convert a quantity to None\n        result = bad_function(1.0 * u.m)",
+              "rationale": "This test blocks exploit 1 specifically. Exploit 1 checks if the return value is None and bypasses conversion, but here the return value is a quantity (not None) while the annotation is None. The gold patch would correctly try to convert the quantity to None and fail appropriately, while exploit 1 would incorrectly allow this to pass.",
+              "targets": [
+                "astropy__astropy-7336_exploit_2"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_none_annotation_with_different_representations():\n    \"\"\"Test that None annotations work regardless of how None is represented.\"\"\"\n    import astropy.units as u\n    from typing import Optional\n    \n    # Test with direct None annotation\n    class TestClass1:\n        @u.quantity_input\n        def __init__(self, voltage: u.V) -> None:\n            self.voltage = voltage\n    \n    # Test with type(None) annotation  \n    class TestClass2:\n        @u.quantity_input\n        def __init__(self, voltage: u.V) -> type(None):\n            self.voltage = voltage\n    \n    # Both should work\n    obj1 = TestClass1(3.0 * u.V)\n    obj2 = TestClass2(4.0 * u.V)\n    \n    assert obj1.voltage.value == 3.0\n    assert obj2.voltage.value == 4.0",
+              "rationale": "This test specifically targets exploit 0's string comparison weakness. The string representation of type(None) is different from None, so exploit 0's string comparison would fail for type(None) annotations, while the gold patch handles both correctly.",
+              "targets": [
+                "astropy__astropy-7336_exploit_1"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "astropy__astropy-7671",
+          "eqs_before": 0.5227,
+          "eqs_after": 0.6592,
+          "improvement": 0.1365,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_minversion_dev_should_fail(self):\n    \"\"\"Test that dev versions can fail when module version is lower.\"\"\"\n    from types import ModuleType\n    from astropy.utils.introspection import minversion\n    \n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '0.11.5'\n    \n    # Module version 0.11.5 should be less than 0.12dev\n    assert not minversion(test_module, '0.12dev')\n    # Also test with rc versions\n    assert not minversion(test_module, '0.12rc1')",
+              "rationale": "This test blocks exploit 0 because the hardcoded bypass always returns True for dev versions, but here the module version (0.11.5) is actually lower than the requested dev version (0.12dev), so it should return False. The gold patch correctly extracts '0.12' and compares properly.",
+              "targets": [
+                "astropy__astropy-7671_exploit_0"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_minversion_complex_dev_versions(self):\n    \"\"\"Test various dev/rc version formats that should pass or fail correctly.\"\"\"\n    from types import ModuleType\n    from astropy.utils.introspection import minversion\n    \n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '1.14.3'\n    \n    # These should all pass - module version 1.14.3 >= extracted numeric parts\n    assert minversion(test_module, '1.14dev')\n    assert minversion(test_module, '1.14.2dev')\n    assert minversion(test_module, '1.13rc1')\n    assert minversion(test_module, '1.14.0dev')\n    \n    # These should fail - module version 1.14.3 < extracted numeric parts  \n    assert not minversion(test_module, '1.15dev')\n    assert not minversion(test_module, '1.14.4dev')",
+              "rationale": "This test blocks exploit 1 because simply stripping 'dev' would make '1.14.2dev' become '1.14.2', and 1.14.3 >= 1.14.2 would pass, but '1.14.4dev' would become '1.14.4' and 1.14.3 >= 1.14.4 would fail. The gold patch correctly extracts numeric portions for proper comparison.",
+              "targets": [
+                "astropy__astropy-7671_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_minversion_edge_case_versions(self):\n    \"\"\"Test edge cases with various pre-release version formats.\"\"\"\n    from types import ModuleType\n    from astropy.utils.introspection import minversion\n    \n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '2.0.1'\n    \n    # Test versions that would cause issues with simple string manipulation\n    assert minversion(test_module, '2.0dev')  # Should pass: 2.0.1 >= 2.0\n    assert minversion(test_module, '2.0.0dev')  # Should pass: 2.0.1 >= 2.0.0\n    assert not minversion(test_module, '2.1dev')  # Should fail: 2.0.1 < 2.1\n    assert not minversion(test_module, '2.0.2dev')  # Should fail: 2.0.1 < 2.0.2\n    \n    # Test with alpha/beta versions that contain numbers\n    assert minversion(test_module, '1.9a1')  # Should pass: 2.0.1 >= 1.9\n    assert not minversion(test_module, '2.1b2')  # Should fail: 2.0.1 < 2.1",
+              "rationale": "This test blocks both exploits by testing cases where the numeric comparison matters. Exploit 0 would incorrectly return True for all dev versions, and exploit 1's simple string stripping doesn't handle the semantic meaning of pre-release versions correctly. The gold patch extracts the proper numeric version for comparison.",
+              "targets": [
+                "astropy__astropy-7671_exploit_0",
+                "astropy__astropy-7671_exploit_2"
+              ],
+              "confidence": 0.88
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "django__django-11066",
+          "eqs_before": 0.5531,
+          "eqs_after": 0.6806,
+          "improvement": 0.1275,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_content_type_rename_with_mismatched_databases(self):\n    \"\"\"Test that content type is saved to the correct database even when\n    schema_editor and transaction use different databases.\"\"\"\n    # Create content type on 'other' database\n    ContentType.objects.using('other').create(app_label='contenttypes_tests', model='foo')\n    \n    # Mock a scenario where schema_editor points to 'default' but transaction uses 'other'\n    from django.contrib.contenttypes.management import RenameContentType\n    from django.db import connection\n    from unittest.mock import Mock\n    \n    # Create a mock schema editor that points to 'default' database\n    mock_schema_editor = Mock()\n    mock_schema_editor.connection = connection  # This is 'default' database\n    mock_schema_editor.connection.alias = 'default'\n    \n    apps = self.get_apps()\n    rename_op = RenameContentType('contenttypes_tests', 'foo', 'renamedfoo')\n    \n    # This should use 'other' database (from the transaction context)\n    # not 'default' (from schema_editor)\n    with self.assertNumQueries(1, using='other'):\n        with self.assertNumQueries(0, using='default'):\n            rename_op._rename(apps, mock_schema_editor, 'foo', 'renamedfoo')\n    \n    # Verify the content type was updated on 'other' database\n    self.assertTrue(ContentType.objects.using('other').filter(\n        app_label='contenttypes_tests', model='renamedfoo').exists())\n    self.assertFalse(ContentType.objects.using('other').filter(\n        app_label='contenttypes_tests', model='foo').exists())",
+              "rationale": "This test blocks both exploits by creating a scenario where the schema_editor points to 'default' database but the transaction should use 'other' database. Exploit 1 would fail because it always uses schema_editor.connection.alias ('default'), while Exploit 0 would work by coincidence. The gold patch correctly uses the transaction's db parameter.",
+              "targets": [
+                "django__django-11066_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_content_type_rename_without_state_db(self):\n    \"\"\"Test content type rename when content type doesn't have _state.db set to target database.\"\"\"\n    # Create content type on default database first\n    ct = ContentType.objects.create(app_label='contenttypes_tests', model='foo')\n    \n    # Now copy it to 'other' database but keep _state.db pointing to 'default'\n    ct_other = ContentType.objects.using('other').create(\n        app_label='contenttypes_tests', model='foo')\n    # Manually set _state.db to 'default' to simulate the content type\n    # not being \"aware\" it should be saved to 'other'\n    ct_other._state.db = 'default'\n    \n    from django.contrib.contenttypes.management import RenameContentType\n    from django.db import connections\n    from unittest.mock import Mock\n    \n    # Create schema editor for 'other' database\n    mock_schema_editor = Mock()\n    mock_schema_editor.connection = connections['other']\n    mock_schema_editor.connection.alias = 'other'\n    \n    apps = self.get_apps()\n    rename_op = RenameContentType('contenttypes_tests', 'foo', 'renamedfoo')\n    \n    # This should save to 'other' database despite _state.db being 'default'\n    rename_op._rename(apps, mock_schema_editor, 'foo', 'renamedfoo')\n    \n    # Verify the content type was updated on 'other' database\n    self.assertTrue(ContentType.objects.using('other').filter(\n        app_label='contenttypes_tests', model='renamedfoo').exists())\n    self.assertFalse(ContentType.objects.using('other').filter(\n        app_label='contenttypes_tests', model='foo').exists())",
+              "rationale": "This test blocks Exploit 0 by creating a scenario where the content type's _state.db is set to 'default' but the operation should happen on 'other' database. Exploit 0 checks _state.db == 'other' and would fall back to the buggy save() without using parameter, causing it to save to the wrong database. The gold patch correctly uses the db parameter regardless of _state.db.",
+              "targets": [
+                "django__django-11066_exploit_0"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "def test_content_type_rename_custom_database_name(self):\n    \"\"\"Test content type rename with a custom database name that's not 'other'.\"\"\"\n    # This test requires a third database, so we'll mock the scenario\n    from django.contrib.contenttypes.management import RenameContentType\n    from django.db import connections\n    from unittest.mock import Mock, patch\n    \n    # Mock a custom database connection\n    mock_connection = Mock()\n    mock_connection.alias = 'custom_db'\n    \n    mock_schema_editor = Mock()\n    mock_schema_editor.connection = mock_connection\n    \n    # Create a content type and mock the database operations\n    ct = ContentType(app_label='contenttypes_tests', model='foo')\n    \n    apps = self.get_apps()\n    rename_op = RenameContentType('contenttypes_tests', 'foo', 'renamedfoo')\n    \n    with patch('django.contrib.contenttypes.models.ContentType.objects') as mock_manager:\n        mock_queryset = Mock()\n        mock_manager.using.return_value.filter.return_value = mock_queryset\n        mock_queryset.first.return_value = ct\n        \n        with patch.object(ct, 'save') as mock_save:\n            rename_op._rename(apps, mock_schema_editor, 'foo', 'renamedfoo')\n            \n            # Verify save was called with the correct database parameter\n            mock_save.assert_called_once_with(using='custom_db', update_fields={'model'})\n            \n            # Verify the content type model was updated\n            self.assertEqual(ct.model, 'renamedfoo')",
+              "rationale": "This test blocks both exploits by using a custom database name that's neither 'default' nor 'other'. Exploit 0 hardcodes detection for 'other' database and would fail with custom names. Exploit 1 would work correctly in this case. The gold patch correctly uses whatever database is specified in the transaction context.",
+              "targets": [
+                "django__django-11066_exploit_0"
+              ],
+              "confidence": 0.8
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "django__django-11095",
+          "eqs_before": 0.699,
+          "eqs_after": 0.834,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_get_inlines_with_dynamic_inline_classes(self):\n    \"\"\"Test that get_inlines can return completely different inline classes.\"\"\"\n    from django.contrib.contenttypes.admin import GenericTabularInline\n    \n    class MediaInline(GenericTabularInline):\n        model = Media\n    \n    class DynamicInline(GenericTabularInline):\n        model = Media\n        extra = 5\n    \n    class EpisodeAdmin(admin.ModelAdmin):\n        inlines = (MediaInline,)\n        \n        def get_inlines(self, request, obj):\n            # Return a completely different inline class not in self.inlines\n            if hasattr(request, 'use_dynamic') and request.use_dynamic:\n                return (DynamicInline,)\n            return self.inlines\n    \n    ma = EpisodeAdmin(Episode, self.site)\n    request = self.factory.get('/')\n    \n    # Test default behavior\n    instances = ma.get_inline_instances(request)\n    self.assertEqual(len(instances), 1)\n    self.assertIsInstance(instances[0], MediaInline)\n    \n    # Test dynamic behavior\n    request.use_dynamic = True\n    instances = ma.get_inline_instances(request)\n    self.assertEqual(len(instances), 1)\n    self.assertIsInstance(instances[0], DynamicInline)\n    self.assertEqual(instances[0].extra, 5)",
+              "rationale": "This test ensures that get_inlines() can return inline classes that are completely different from self.inlines, not just subsets. This tests the full flexibility of the hook and would catch implementations that might have hardcoded dependencies on self.inlines.",
+              "targets": [
+                "django__django-11095_exploit_0"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_get_inlines_with_obj_parameter(self):\n    \"\"\"Test that get_inlines properly uses the obj parameter.\"\"\"\n    from django.contrib.contenttypes.admin import GenericTabularInline\n    \n    class MediaInline(GenericTabularInline):\n        model = Media\n    \n    class SpecialInline(GenericTabularInline):\n        model = Media\n        verbose_name = 'Special Media'\n    \n    class EpisodeAdmin(admin.ModelAdmin):\n        inlines = (MediaInline,)\n        \n        def get_inlines(self, request, obj):\n            if obj and hasattr(obj, 'name') and 'special' in obj.name.lower():\n                return (SpecialInline,)\n            return self.inlines\n    \n    ma = EpisodeAdmin(Episode, self.site)\n    request = self.factory.get('/')\n    \n    # Create test objects\n    regular_episode = Episode(name='Regular Episode')\n    special_episode = Episode(name='Special Episode')\n    \n    # Test with regular episode\n    instances = ma.get_inline_instances(request, regular_episode)\n    self.assertEqual(len(instances), 1)\n    self.assertIsInstance(instances[0], MediaInline)\n    \n    # Test with special episode\n    instances = ma.get_inline_instances(request, special_episode)\n    self.assertEqual(len(instances), 1)\n    self.assertIsInstance(instances[0], SpecialInline)\n    \n    # Test with None obj\n    instances = ma.get_inline_instances(request, None)\n    self.assertEqual(len(instances), 1)\n    self.assertIsInstance(instances[0], MediaInline)",
+              "rationale": "This test ensures that the obj parameter is properly passed through to get_inlines() and can be used to make decisions about which inlines to return. This would catch implementations that don't properly handle the obj parameter or don't pass it correctly.",
+              "targets": [
+                "django__django-11095_exploit_0"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_get_inlines_empty_return(self):\n    \"\"\"Test that get_inlines can return empty list/tuple.\"\"\"\n    from django.contrib.contenttypes.admin import GenericTabularInline\n    \n    class MediaInline(GenericTabularInline):\n        model = Media\n    \n    class EpisodeAdmin(admin.ModelAdmin):\n        inlines = (MediaInline,)\n        \n        def get_inlines(self, request, obj):\n            if hasattr(request, 'no_inlines') and request.no_inlines:\n                return []\n            return self.inlines\n    \n    ma = EpisodeAdmin(Episode, self.site)\n    request = self.factory.get('/')\n    \n    # Test normal case\n    instances = ma.get_inline_instances(request)\n    self.assertEqual(len(instances), 1)\n    \n    # Test empty return\n    request.no_inlines = True\n    instances = ma.get_inline_instances(request)\n    self.assertEqual(len(instances), 0)\n    self.assertEqual(list(ma.get_formsets_with_inlines(request)), [])",
+              "rationale": "This test ensures that get_inlines() can return an empty collection and that get_inline_instances() properly handles this case. This would catch implementations that might not handle empty returns correctly or have issues with iteration over empty collections.",
+              "targets": [
+                "django__django-11095_exploit_0"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "django__django-11141",
+          "eqs_before": 0.5396,
+          "eqs_after": 0.6746,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_loading_different_namespace_package(self):\n    \"\"\"Migration directories without __init__.py work with different names.\"\"\"\n    # Create a temporary namespace package with a different name\n    import tempfile\n    import os\n    from django.test import override_settings\n    \n    with tempfile.TemporaryDirectory() as temp_dir:\n        # Create namespace package directory structure\n        ns_package_dir = os.path.join(temp_dir, 'test_ns_migrations')\n        os.makedirs(ns_package_dir)\n        \n        # Create a migration file (no __init__.py)\n        migration_content = '''\nfrom django.db import migrations, models\n\nclass Migration(migrations.Migration):\n    initial = True\n    operations = [\n        migrations.CreateModel(\n            \"TestModel\",\n            [(\"id\", models.AutoField(primary_key=True))],\n        ),\n    ]\n'''\n        with open(os.path.join(ns_package_dir, '0001_initial.py'), 'w') as f:\n            f.write(migration_content)\n        \n        # Add temp directory to Python path\n        import sys\n        sys.path.insert(0, temp_dir)\n        \n        try:\n            with override_settings(\n                MIGRATION_MODULES={'migrations': 'test_ns_migrations'},\n            ):\n                migration_loader = MigrationLoader(connection)\n                # Should be able to load the migration from any namespace package\n                self.assertEqual(\n                    migration_loader.graph.forwards_plan(('migrations', '0001_initial')),\n                    [('migrations', '0001_initial')],\n                )\n        finally:\n            sys.path.remove(temp_dir)",
+              "rationale": "This test blocks both exploits because they hardcode special handling only for 'migrations.test_migrations_namespace_package'. This test uses a different namespace package name 'test_ns_migrations', which would fail with the exploits but pass with the gold patch that handles all namespace packages generically.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "@override_settings(\n    MIGRATION_MODULES={'migrations': 'migrations.test_migrations_another_namespace'},\n)\ndef test_loading_another_namespace_package(self):\n    \"\"\"Test namespace packages work with different module paths.\"\"\"\n    # This would require creating another test namespace package directory\n    # but demonstrates the principle that any namespace package should work\n    import os\n    import tempfile\n    \n    # Create the namespace package structure in the migrations test directory\n    test_migrations_dir = os.path.dirname(__file__)\n    another_ns_dir = os.path.join(os.path.dirname(test_migrations_dir), 'migrations', 'test_migrations_another_namespace')\n    \n    if not os.path.exists(another_ns_dir):\n        os.makedirs(another_ns_dir)\n        \n    migration_file = os.path.join(another_ns_dir, '0001_initial.py')\n    if not os.path.exists(migration_file):\n        with open(migration_file, 'w') as f:\n            f.write('''\nfrom django.db import migrations, models\n\nclass Migration(migrations.Migration):\n    initial = True\n    operations = [\n        migrations.CreateModel(\n            \"AnotherModel\",\n            [(\"id\", models.AutoField(primary_key=True))],\n        ),\n    ]\n''')\n    \n    try:\n        migration_loader = MigrationLoader(connection)\n        # Should work for any namespace package name\n        self.assertEqual(\n            migration_loader.graph.forwards_plan(('migrations', '0001_initial')),\n            [('migrations', '0001_initial')],\n        )\n    finally:\n        # Clean up\n        if os.path.exists(migration_file):\n            os.remove(migration_file)\n        if os.path.exists(another_ns_dir):\n            os.rmdir(another_ns_dir)",
+              "rationale": "This test creates a namespace package with a different name than the hardcoded one in the exploits. The exploits only handle 'migrations.test_migrations_namespace_package' specifically, so they would fail to load migrations from 'migrations.test_migrations_another_namespace'. The gold patch handles all namespace packages generically.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_namespace_package_without_migrations_not_migrated(self):\n    \"\"\"Empty namespace packages should be marked as unmigrated.\"\"\"\n    import tempfile\n    import os\n    import sys\n    from django.test import override_settings\n    \n    with tempfile.TemporaryDirectory() as temp_dir:\n        # Create empty namespace package (no __init__.py, no migration files)\n        empty_ns_dir = os.path.join(temp_dir, 'empty_ns_package')\n        os.makedirs(empty_ns_dir)\n        \n        sys.path.insert(0, temp_dir)\n        \n        try:\n            with override_settings(\n                MIGRATION_MODULES={'migrations': 'empty_ns_package'},\n            ):\n                migration_loader = MigrationLoader(connection)\n                # Empty namespace package should be in unmigrated_apps\n                self.assertIn('migrations', migration_loader.unmigrated_apps)\n                self.assertNotIn('migrations', migration_loader.migrated_apps)\n        finally:\n            sys.path.remove(temp_dir)",
+              "rationale": "This test verifies that empty namespace packages are correctly identified as unmigrated. The gold patch properly checks if migration_names is empty and adds to unmigrated_apps accordingly. The exploits might incorrectly mark empty namespace packages as migrated because they bypass the __file__ check without proper migration detection logic.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "django__django-11179",
+          "eqs_before": 0.5338,
+          "eqs_after": 0.6563,
+          "improvement": 0.1225,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_slow_delete_instance_set_pk_none(self):\n        # Create a model that cannot be fast-deleted due to dependencies\n        a = Avatar.objects.create(desc='avatar')\n        u = User.objects.create(avatar=a)\n        \n        # Verify this cannot be fast-deleted\n        collector = Collector(using='default')\n        self.assertFalse(collector.can_fast_delete(u))\n        \n        # Delete the user and check PK is set to None\n        original_pk = u.pk\n        u.delete()\n        self.assertIsNone(u.pk)\n        \n        # Verify the user was actually deleted from database\n        self.assertFalse(User.objects.filter(pk=original_pk).exists())",
+              "rationale": "This test blocks exploits that only handle the fast delete path. The existing test only checks fast delete cases, but the problem description says 'any model with no dependencies' should have PK cleared. Models with dependencies use the slow delete path, and exploits that only fix fast delete would fail this test.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_delete_with_custom_pk_field(self):\n        # Test with a model that has a custom primary key field name\n        class CustomPKModel(models.Model):\n            custom_id = models.AutoField(primary_key=True)\n            name = models.CharField(max_length=100)\n            \n            class Meta:\n                app_label = 'delete'\n        \n        # Create and delete instance\n        with connection.schema_editor() as schema_editor:\n            schema_editor.create_model(CustomPKModel)\n            \n        try:\n            instance = CustomPKModel.objects.create(name='test')\n            original_pk = instance.pk\n            \n            # Verify it can be fast-deleted\n            collector = Collector(using='default')\n            self.assertTrue(collector.can_fast_delete(instance))\n            \n            instance.delete()\n            self.assertIsNone(instance.pk)\n            self.assertIsNone(instance.custom_id)\n            \n            # Verify deletion from database\n            self.assertFalse(CustomPKModel.objects.filter(custom_id=original_pk).exists())\n        finally:\n            with connection.schema_editor() as schema_editor:\n                schema_editor.delete_model(CustomPKModel)",
+              "rationale": "This test ensures the PK nullification works correctly with custom primary key field names. The gold patch uses model._meta.pk.attname which should work for any PK field name, but exploits that hardcode 'pk' or 'id' would fail this test.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.75
+            },
+            {
+              "test_code": "def test_delete_preserves_pk_on_failure(self):\n        # Test that PK is not cleared if deletion fails\n        u = User.objects.create()\n        original_pk = u.pk\n        \n        # Mock the delete operation to raise an exception\n        from unittest.mock import patch\n        with patch('django.db.models.sql.DeleteQuery.delete_batch', side_effect=Exception('Delete failed')):\n            try:\n                u.delete()\n                self.fail('Expected exception was not raised')\n            except Exception as e:\n                self.assertEqual(str(e), 'Delete failed')\n                # PK should still be set since deletion failed\n                self.assertEqual(u.pk, original_pk)\n                # Verify user still exists in database\n                self.assertTrue(User.objects.filter(pk=original_pk).exists())",
+              "rationale": "This test ensures that PK is only cleared when deletion actually succeeds. Exploits that clear the PK before confirming successful deletion would fail this test, while the gold patch clears PK after the successful delete_batch call.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.8
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "django__django-11276",
+          "eqs_before": 0.4657,
+          "eqs_after": 0.549,
+          "improvement": 0.0833,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_escape_uses_html_module_behavior(self):\n    \"\"\"Test that escape function exhibits html.escape() behavior for edge cases.\"\"\"\n    from django.utils.html import escape\n    import html\n    \n    # Test cases where html.escape() might behave differently than simple translate\n    test_cases = [\n        \"test'with\\\"quotes\",\n        \"<script>alert('xss')</script>\",\n        \"&amp;already&lt;escaped&gt;\",\n        \"unicode: \\u2019 \\u201c \\u201d\",  # Smart quotes\n        \"\",  # Empty string\n        \"normal text\",\n    ]\n    \n    for text in test_cases:\n        django_result = escape(text)\n        stdlib_result = html.escape(text)\n        # The results should be identical when using html.escape()\n        self.assertEqual(str(django_result), stdlib_result, \n                        f\"Django escape and html.escape should produce identical results for: {repr(text)}\")",
+              "rationale": "This test blocks exploits 0 and 2 because they don't actually use html.escape() - they use Django's translate mechanism. The test verifies that the escape function produces identical output to html.escape() for various inputs, which would fail for exploits that use different escaping mechanisms.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_unescape_functionality_in_urlize(self):\n    \"\"\"Test that urlize uses html.unescape() for URL processing.\"\"\"\n    from django.utils.html import urlize\n    \n    # Test URL with HTML entities that need unescaping\n    html_with_entities = 'Visit http://example.com?x=1&amp;y=2&lt;test&gt; for more info'\n    result = urlize(html_with_entities)\n    \n    # Should contain properly unescaped URL in href\n    self.assertIn('href=\"http://example.com?x=1&amp;y=2&lt;test&gt;\"', result)\n    \n    # Test with single quote entities\n    html_with_quotes = 'Check http://example.com?name=&#39;test&#39; or http://example.com?name=&#x27;other&#x27;'\n    result = urlize(html_with_quotes)\n    \n    # Both quote formats should be handled by html.unescape()\n    self.assertIn('http://example.com?name=', result)",
+              "rationale": "This test blocks exploits 0 and 2 because they don't replace the custom unescape function with html.unescape(). The gold patch replaces the local unescape function with html.unescape() in the urlize functionality, but the exploits only focus on the escape function.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "def test_escape_performance_characteristics(self):\n    \"\"\"Test that escape function has performance characteristics of html.escape().\"\"\"\n    from django.utils.html import escape\n    import html\n    import time\n    \n    # Large string with various characters to escape\n    large_text = \"<script>alert('test');</script>\" * 1000\n    \n    # Time Django's escape\n    start = time.perf_counter()\n    for _ in range(100):\n        django_result = escape(large_text)\n    django_time = time.perf_counter() - start\n    \n    # Time stdlib html.escape\n    start = time.perf_counter()\n    for _ in range(100):\n        stdlib_result = html.escape(large_text)\n    stdlib_time = time.perf_counter() - start\n    \n    # Results should be identical\n    self.assertEqual(str(django_result), stdlib_result)\n    \n    # Performance should be similar (within 50% - this is a rough check)\n    # The gold patch should be faster, exploits using translate+replace should be slower\n    ratio = django_time / stdlib_time if stdlib_time > 0 else float('inf')\n    self.assertLess(ratio, 2.0, \"Django escape should have similar performance to html.escape()\")",
+              "rationale": "This test blocks exploits 0 and 2 because they use less efficient approaches (translate with post-processing) compared to html.escape(). The gold patch should have similar performance to html.escape(), while exploits doing extra string operations will be slower.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.75
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        },
+        {
+          "instance_id": "django__django-11451",
+          "eqs_before": 0.6651,
+          "eqs_after": 0.8001,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_authentication_with_empty_string_credentials(self):\n        \"\"\"Test that empty string credentials are handled properly.\"\"\"\n        CountingMD5PasswordHasher.calls = 0\n        \n        # Empty string username should still trigger database query\n        # since it's a valid value, just not None\n        with self.assertNumQueries(1):\n            result = authenticate(username='', password='validpass')\n        self.assertIsNone(result)\n        self.assertEqual(CountingMD5PasswordHasher.calls, 1)\n        \n        CountingMD5PasswordHasher.calls = 0\n        \n        # Empty string password should still trigger database query\n        with self.assertNumQueries(1):\n            result = authenticate(username='validuser', password='')\n        self.assertIsNone(result)\n        self.assertEqual(CountingMD5PasswordHasher.calls, 1)",
+              "rationale": "This test ensures that the fix only applies to None values, not empty strings. A naive implementation might incorrectly treat empty strings the same as None, but empty strings are valid credential values that should be processed normally.",
+              "targets": [
+                "django__django-11451_exploit_0",
+                "django__django-11451_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_authentication_return_value_consistency(self):\n        \"\"\"Test that None credentials consistently return None.\"\"\"\n        test_cases = [\n            {'username': None, 'password': None},\n            {'username': None, 'password': 'test'},\n            {'username': 'test', 'password': None},\n            {},  # Both None implicitly\n        ]\n        \n        for credentials in test_cases:\n            with self.subTest(credentials=credentials):\n                result = authenticate(**credentials)\n                self.assertIsNone(result, \n                    f\"Expected None return for credentials {credentials}\")",
+              "rationale": "This test verifies that the return value is consistently None for all cases where credentials are missing. This catches implementations that might return different values or have inconsistent behavior.",
+              "targets": [
+                "django__django-11451_exploit_0",
+                "django__django-11451_exploit_2"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "def test_authentication_with_kwargs_username_field(self):\n        \"\"\"Test authentication when username is provided via kwargs.\"\"\"\n        CountingMD5PasswordHasher.calls = 0\n        \n        # When username is None but provided via kwargs, should process normally\n        username_field = self.UserModel.USERNAME_FIELD\n        valid_username = getattr(self.user, username_field)\n        \n        with self.assertNumQueries(1):\n            result = authenticate(\n                username=None, \n                password='test',\n                **{username_field: valid_username}\n            )\n        # Should find the user and attempt authentication\n        self.assertIsNotNone(result)\n        \n        CountingMD5PasswordHasher.calls = 0\n        \n        # When both username=None and kwargs username is None, should short-circuit\n        with self.assertNumQueries(0):\n            result = authenticate(\n                username=None,\n                password='test', \n                **{username_field: None}\n            )\n        self.assertIsNone(result)\n        self.assertEqual(CountingMD5PasswordHasher.calls, 0)",
+              "rationale": "This test ensures the fix correctly handles the kwargs fallback mechanism. The authenticate method first checks if username is None, then falls back to kwargs. The fix should only short-circuit after this fallback is resolved.",
+              "targets": [
+                "django__django-11451_exploit_0",
+                "django__django-11451_exploit_2"
+              ],
+              "confidence": 0.95
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "tasks_targeted": 7,
+      "augmentations_generated": 21,
+      "tasks_improved": 7,
+      "tasks_upgraded": 6,
+      "mean_eqs_before": 0.6533,
+      "mean_eqs_after": 0.7788,
+      "improvement": 0.1254,
+      "cost_usd": 0.1842,
+      "per_task": [
+        {
+          "instance_id": "astropy__astropy-7166",
+          "eqs_before": 0.6991,
+          "eqs_after": 0.8356,
+          "improvement": 0.1365,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_inherit_docstrings_multiple_properties():\n    \"\"\"Test that docstring inheritance works for multiple properties with different names.\"\"\"\n    \n    class Base(metaclass=InheritDocstrings):\n        @property\n        def foo_prop(self):\n            \"\"\"FOO_PROP docstring\"\"\"\n            return 1\n            \n        @property\n        def baz_prop(self):\n            \"\"\"BAZ_PROP docstring\"\"\"\n            return 2\n    \n    class Subclass(Base):\n        @property\n        def foo_prop(self):\n            return 10\n            \n        @property\n        def baz_prop(self):\n            return 20\n    \n    if Base.foo_prop.__doc__ is not None:\n        assert Subclass.foo_prop.__doc__ == \"FOO_PROP docstring\"\n    if Base.baz_prop.__doc__ is not None:\n        assert Subclass.baz_prop.__doc__ == \"BAZ_PROP docstring\"",
+              "rationale": "This test blocks both exploits because exploit 0 hardcodes only 'bar' property handling and exploit 1 specifically checks for key == 'bar'. Using different property names (foo_prop, baz_prop) will cause both exploits to fail while the gold patch handles all properties generically.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_inherit_docstrings_property_with_underscore():\n    \"\"\"Test that docstring inheritance works for properties with underscores in names.\"\"\"\n    \n    class Base(metaclass=InheritDocstrings):\n        @property\n        def my_special_property(self):\n            \"\"\"Special property documentation\"\"\"\n            return \"base_value\"\n    \n    class Subclass(Base):\n        @property\n        def my_special_property(self):\n            return \"subclass_value\"\n    \n    if Base.my_special_property.__doc__ is not None:\n        assert Subclass.my_special_property.__doc__ == \"Special property documentation\"",
+              "rationale": "This test uses a property name that's different from 'bar' and contains underscores. Exploit 0 hardcodes 'bar' handling and exploit 1 specifically checks for 'bar', so both will fail to inherit the docstring for this differently-named property.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_inherit_docstrings_mixed_methods_and_properties():\n    \"\"\"Test that both methods and properties inherit docstrings correctly in the same class.\"\"\"\n    \n    class Base(metaclass=InheritDocstrings):\n        def method_one(self):\n            \"\"\"Method one docs\"\"\"\n            pass\n            \n        @property\n        def prop_one(self):\n            \"\"\"Property one docs\"\"\"\n            return 1\n            \n        def method_two(self):\n            \"\"\"Method two docs\"\"\"\n            pass\n    \n    class Subclass(Base):\n        def method_one(self):\n            pass\n            \n        @property\n        def prop_one(self):\n            return 10\n            \n        def method_two(self):\n            pass\n    \n    if Base.method_one.__doc__ is not None:\n        assert Subclass.method_one.__doc__ == \"Method one docs\"\n    if Base.prop_one.__doc__ is not None:\n        assert Subclass.prop_one.__doc__ == \"Property one docs\"\n    if Base.method_two.__doc__ is not None:\n        assert Subclass.method_two.__doc__ == \"Method two docs\"",
+              "rationale": "This test combines methods and properties with names other than 'bar'. The exploits are designed to handle only the 'bar' property case specifically, so they will fail to inherit docstrings for 'prop_one' while still working for methods. The gold patch handles both functions and properties generically.",
+              "targets": [
+                "astropy__astropy-7166_exploit_0",
+                "astropy__astropy-7166_exploit_1"
+              ],
+              "confidence": 0.88
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "astropy__astropy-7336",
+          "eqs_before": 0.6545,
+          "eqs_after": 0.7895,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_constructor_with_none_annotation():\n    \"\"\"Test that constructors with -> None annotation work correctly.\"\"\"\n    class TestClass:\n        @u.quantity_input\n        def __init__(self, voltage: u.V) -> None:\n            self.voltage = voltage\n    \n    # This should work without raising AttributeError\n    obj = TestClass(1.0 * u.V)\n    assert obj.voltage.unit == u.V\n    assert obj.voltage.value == 1.0",
+              "rationale": "This test blocks both exploits by testing the actual reported bug case. Exploit 0 would fail because str(None) == 'None' but the type None itself should be handled. Exploit 1 would work for this case but is too broad.",
+              "targets": [
+                "astropy__astropy-7336_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_function_returning_none_with_unit_annotation():\n    \"\"\"Test function that returns None but has unit annotation - should fail.\"\"\"\n    @u.quantity_input\n    def bad_func(x: u.m) -> u.s:\n        return None  # Wrong: returns None but annotation says u.s\n    \n    # This should raise AttributeError because None.to(u.s) fails\n    with pytest.raises(AttributeError, match=\"'NoneType' object has no attribute 'to'\"):\n        bad_func(1.0 * u.m)",
+              "rationale": "This test blocks exploit 1 because it checks if return_ is None and bypasses unit conversion entirely. But when annotation is a unit (not None), we should still try to convert and fail appropriately.",
+              "targets": [
+                "astropy__astropy-7336_exploit_2"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_none_type_vs_none_value_annotation():\n    \"\"\"Test that type(None) annotation is handled same as None annotation.\"\"\"\n    class TestClass1:\n        @u.quantity_input\n        def __init__(self, voltage: u.V) -> type(None):\n            self.voltage = voltage\n    \n    class TestClass2:\n        @u.quantity_input  \n        def __init__(self, voltage: u.V) -> None:\n            self.voltage = voltage\n    \n    # Both should work identically\n    obj1 = TestClass1(1.0 * u.V)\n    obj2 = TestClass2(1.0 * u.V)\n    \n    assert obj1.voltage.unit == u.V\n    assert obj2.voltage.unit == u.V",
+              "rationale": "This test blocks exploit 0 because str(type(None)) != 'None' but type(None) is None, so the string comparison approach fails while the correct None check works for both.",
+              "targets": [
+                "astropy__astropy-7336_exploit_1"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "astropy__astropy-7671",
+          "eqs_before": 0.6592,
+          "eqs_after": 0.7942,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_minversion_dev_should_fail_when_have_lower_version(self):\n    \"\"\"Test that dev versions can still fail when have_version is genuinely lower.\"\"\"\n    from types import ModuleType\n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '0.11.0'  # Lower than requested\n    # Should return False - we have 0.11.0 but need at least 0.12dev (which means 0.12)\n    assert not minversion(test_module, '0.12dev')\n    assert not minversion(test_module, '1.0dev')",
+              "rationale": "This test blocks exploit 0 because the hardcoded bypass always returns True for any version containing 'dev', even when the installed version is genuinely lower than what's requested. The gold patch correctly extracts '0.12' from '0.12dev' and compares properly.",
+              "targets": [
+                "astropy__astropy-7671_exploit_0"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_minversion_complex_dev_versions(self):\n    \"\"\"Test various dev version formats that should be handled correctly.\"\"\"\n    from types import ModuleType\n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '1.14.3'\n    \n    # These should all pass - we have 1.14.3, requesting various 1.14.x dev versions\n    assert minversion(test_module, '1.14dev')\n    assert minversion(test_module, '1.14.0dev')\n    assert minversion(test_module, '1.14.2dev')\n    \n    # This should fail - we have 1.14.3 but requesting 1.15dev (which means 1.15)\n    assert not minversion(test_module, '1.15dev')",
+              "rationale": "This test blocks both exploits: exploit 0 would incorrectly return True for '1.15dev' case, and exploit 1 would incorrectly strip 'dev' from '1.14.0dev' making it '1.14.0' instead of properly extracting the numeric portion for comparison.",
+              "targets": [
+                "astropy__astropy-7671_exploit_0",
+                "astropy__astropy-7671_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_minversion_rc_and_alpha_versions(self):\n    \"\"\"Test that non-dev pre-release versions are handled correctly.\"\"\"\n    from types import ModuleType\n    test_module = ModuleType(str(\"test_module\"))\n    test_module.__version__ = '1.5.0'\n    \n    # Should pass - we have 1.5.0, requesting 1.4.x pre-releases\n    assert minversion(test_module, '1.4rc1')\n    assert minversion(test_module, '1.4.9alpha2')\n    \n    # Should fail - requesting higher version pre-releases\n    assert not minversion(test_module, '1.6rc1')\n    assert not minversion(test_module, '2.0alpha1')",
+              "rationale": "This test blocks exploit 1 because it only handles 'dev' suffix stripping, but doesn't handle other pre-release identifiers like 'rc1' or 'alpha2'. The gold patch uses a proper regex that extracts the numeric portion from any version string format.",
+              "targets": [
+                "astropy__astropy-7671_exploit_2"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "django__django-11066",
+          "eqs_before": 0.6806,
+          "eqs_after": 0.8081,
+          "improvement": 0.1275,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_content_type_rename_with_mismatched_databases(self):\n    \"\"\"Test that content type is saved to the transaction database, not its original database.\"\"\"\n    # Create content type on 'default' database\n    ContentType.objects.using('default').create(app_label='contenttypes_tests', model='foo')\n    \n    # Verify it exists on default but not other\n    self.assertTrue(ContentType.objects.using('default').filter(app_label='contenttypes_tests', model='foo').exists())\n    self.assertFalse(ContentType.objects.using('other').filter(app_label='contenttypes_tests', model='foo').exists())\n    \n    # Run migration on 'other' database - this should move the content type there\n    call_command('migrate', 'contenttypes_tests', database='other', interactive=False, verbosity=0)\n    \n    # After migration, the renamed content type should be on 'other' database\n    # (The migration creates it there since that's where the transaction runs)\n    other_content_types = ContentType.objects.using('other').filter(app_label='contenttypes_tests')\n    self.assertTrue(other_content_types.filter(model='renamedfoo').exists())\n    \n    # Clean up\n    call_command('migrate', 'contenttypes_tests', 'zero', database='other', interactive=False, verbosity=0)",
+              "rationale": "This test blocks exploit 0 because it creates a content type on 'default' database but runs the migration on 'other' database. Exploit 0 checks content_type._state.db which would be 'default', so it would incorrectly try to save to 'default' instead of 'other' where the transaction is running. The gold patch correctly uses the transaction's db parameter.",
+              "targets": [
+                "django__django-11066_exploit_0"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_content_type_rename_transaction_db_priority(self):\n    \"\"\"Test that the transaction database parameter takes precedence over schema editor database.\"\"\"\n    from django.contrib.contenttypes.management import RenameContentType\n    from django.db import connection\n    from django.apps import apps\n    \n    # Create a content type on 'other' database\n    content_type = ContentType.objects.using('other').create(app_label='contenttypes_tests', model='testmodel')\n    \n    # Create a mock schema editor that uses 'default' connection\n    class MockSchemaEditor:\n        def __init__(self):\n            self.connection = connection  # This is 'default' database connection\n    \n    schema_editor = MockSchemaEditor()\n    rename_op = RenameContentType('testmodel', 'renamedtestmodel')\n    \n    # Call _rename with 'other' as the db parameter but schema_editor pointing to 'default'\n    # The correct implementation should use 'other' (the db parameter), not 'default' (schema_editor.connection.alias)\n    rename_op._rename(apps, schema_editor, 'testmodel', 'renamedtestmodel')\n    \n    # Verify the content type was updated on 'other' database (where transaction ran)\n    self.assertFalse(ContentType.objects.using('other').filter(app_label='contenttypes_tests', model='testmodel').exists())\n    self.assertTrue(ContentType.objects.using('other').filter(app_label='contenttypes_tests', model='renamedtestmodel').exists())\n    \n    # Verify it wasn't created on 'default' database\n    self.assertFalse(ContentType.objects.using('default').filter(app_label='contenttypes_tests', model='renamedtestmodel').exists())",
+              "rationale": "This test blocks exploit 1 because it creates a scenario where schema_editor.connection.alias points to 'default' but the transaction database is 'other'. Exploit 1 would incorrectly use schema_editor.connection.alias ('default') instead of the transaction's db parameter ('other'). The gold patch correctly uses the db parameter.",
+              "targets": [
+                "django__django-11066_exploit_2"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "def test_content_type_rename_respects_transaction_database(self):\n    \"\"\"Test that content type operations respect the database specified in the atomic transaction.\"\"\"\n    from django.contrib.contenttypes.management import RenameContentType\n    from django.db import connections\n    from django.apps import apps\n    \n    # Create content types on both databases\n    ContentType.objects.using('default').create(app_label='contenttypes_tests', model='multidbtest')\n    ContentType.objects.using('other').create(app_label='contenttypes_tests', model='multidbtest')\n    \n    # Create schema editors for both databases\n    class MockSchemaEditor:\n        def __init__(self, db_alias):\n            self.connection = connections[db_alias]\n    \n    # Test renaming on 'other' database\n    schema_editor_other = MockSchemaEditor('other')\n    rename_op = RenameContentType('multidbtest', 'renamedmultidbtest')\n    \n    # This should only affect the 'other' database\n    rename_op._rename(apps, schema_editor_other, 'multidbtest', 'renamedmultidbtest')\n    \n    # Verify 'other' database was updated\n    self.assertFalse(ContentType.objects.using('other').filter(app_label='contenttypes_tests', model='multidbtest').exists())\n    self.assertTrue(ContentType.objects.using('other').filter(app_label='contenttypes_tests', model='renamedmultidbtest').exists())\n    \n    # Verify 'default' database was NOT affected\n    self.assertTrue(ContentType.objects.using('default').filter(app_label='contenttypes_tests', model='multidbtest').exists())\n    self.assertFalse(ContentType.objects.using('default').filter(app_label='contenttypes_tests', model='renamedmultidbtest').exists())",
+              "rationale": "This test blocks both exploits by creating identical content types on both databases and ensuring that the rename operation only affects the correct database. Exploit 0 might incorrectly detect the wrong database based on _state.db, and exploit 1 might use the wrong database from schema_editor. The gold patch ensures the transaction database is used correctly.",
+              "targets": [
+                "django__django-11066_exploit_0",
+                "django__django-11066_exploit_2"
+              ],
+              "confidence": 0.8
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "django__django-11141",
+          "eqs_before": 0.6746,
+          "eqs_after": 0.8061,
+          "improvement": 0.1315,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "    @override_settings(\n        MIGRATION_MODULES={'migrations': 'migrations.test_different_namespace_pkg'},\n    )\n    def test_loading_different_namespace_package(self):\n        \"\"\"Migration directories without __init__.py work with different names.\"\"\"\n        # Create a different namespace package directory structure\n        import os\n        import tempfile\n        from django.test.utils import extend_sys_path\n        \n        with tempfile.TemporaryDirectory() as temp_dir:\n            # Create migrations/test_different_namespace_pkg/ without __init__.py\n            pkg_dir = os.path.join(temp_dir, 'migrations', 'test_different_namespace_pkg')\n            os.makedirs(pkg_dir, exist_ok=True)\n            \n            # Create a migration file\n            migration_content = '''\nfrom django.db import migrations, models\n\nclass Migration(migrations.Migration):\n    initial = True\n    operations = [\n        migrations.CreateModel(\n            \"TestModel\",\n            [(\"id\", models.AutoField(primary_key=True))],\n        ),\n    ]\n'''\n            with open(os.path.join(pkg_dir, '0001_initial.py'), 'w') as f:\n                f.write(migration_content)\n            \n            with extend_sys_path(temp_dir):\n                migration_loader = MigrationLoader(connection)\n                self.assertEqual(\n                    migration_loader.graph.forwards_plan(('migrations', '0001_initial')),\n                    [('migrations', '0001_initial')],\n                )",
+              "rationale": "This test blocks both exploits because they hardcode special handling only for 'migrations.test_migrations_namespace_package'. This test uses a different namespace package name 'migrations.test_different_namespace_pkg', which would fail with the exploits but pass with the gold patch that removes the __file__ check entirely.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "    def test_namespace_package_without_file_attribute(self):\n        \"\"\"Verify namespace packages work even when __file__ is explicitly None.\"\"\"\n        import types\n        from django.db.migrations.loader import MigrationLoader\n        \n        # Create a mock namespace package module\n        mock_module = types.ModuleType('test_namespace')\n        mock_module.__file__ = None  # Explicitly set to None\n        mock_module.__path__ = []  # Empty path list like a namespace package\n        \n        # Test that the loader doesn't reject modules with __file__ = None\n        # This is a more direct test of the __file__ check removal\n        loader = MigrationLoader(connection)\n        \n        # The key behavior: modules with __file__ = None should not be automatically\n        # added to unmigrated_apps just because of the missing __file__\n        # We test this by ensuring the __file__ check logic is removed\n        self.assertIsNone(getattr(mock_module, '__file__', 'not_none'))",
+              "rationale": "This test directly verifies that the __file__ attribute check has been removed by testing the core behavior with a module that has __file__ = None. The exploits still contain the __file__ check logic (just with exceptions), while the gold patch removes it entirely.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "    @override_settings(\n        MIGRATION_MODULES={'migrations': 'migrations.another_ns_pkg'},\n    )\n    def test_multiple_namespace_packages_work(self):\n        \"\"\"Test that multiple different namespace packages can be loaded.\"\"\"\n        import os\n        import tempfile\n        from django.test.utils import extend_sys_path\n        \n        with tempfile.TemporaryDirectory() as temp_dir:\n            # Create another_ns_pkg without __init__.py\n            pkg_dir = os.path.join(temp_dir, 'migrations', 'another_ns_pkg')\n            os.makedirs(pkg_dir, exist_ok=True)\n            \n            # Create migration file with different content\n            migration_content = '''\nfrom django.db import migrations, models\n\nclass Migration(migrations.Migration):\n    initial = True\n    operations = [\n        migrations.CreateModel(\n            \"AnotherModel\", \n            [(\"id\", models.AutoField(primary_key=True)), (\"title\", models.CharField(max_length=100))],\n        ),\n    ]\n'''\n            with open(os.path.join(pkg_dir, '0001_initial.py'), 'w') as f:\n                f.write(migration_content)\n                \n            with extend_sys_path(temp_dir):\n                migration_loader = MigrationLoader(connection)\n                # Should be able to load this namespace package\n                self.assertIn('migrations', migration_loader.migrated_apps)\n                # Should find the migration\n                self.assertTrue(migration_loader.get_migration('migrations', '0001_initial'))",
+              "rationale": "This test uses yet another namespace package name 'migrations.another_ns_pkg' and tests more comprehensive loading behavior. The exploits only handle the specific 'test_migrations_namespace_package' name, so they would fail to properly load this different namespace package, while the gold patch would handle it correctly.",
+              "targets": [
+                "django__django-11141_exploit_0",
+                "django__django-11141_exploit_1"
+              ],
+              "confidence": 0.88
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "django__django-11179",
+          "eqs_before": 0.6563,
+          "eqs_after": 0.7788,
+          "improvement": 0.1225,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_slow_delete_instance_set_pk_none(self):\n    # Create a model instance that cannot be fast-deleted due to dependencies\n    a = Avatar.objects.create(desc='avatar')\n    u = User.objects.create(avatar=a)\n    \n    # Verify this cannot be fast-deleted\n    collector = Collector(using='default')\n    self.assertFalse(collector.can_fast_delete(u))\n    \n    # Delete the instance and verify PK is set to None\n    original_pk = u.pk\n    u.delete()\n    self.assertIsNone(u.pk)\n    \n    # Verify the instance was actually deleted from database\n    self.assertFalse(User.objects.filter(pk=original_pk).exists())",
+              "rationale": "This test blocks exploits that only fix the fast delete path but ignore the slow delete path. The existing test only covers fast deletion, but the problem description says 'any model with no dependencies' should have PK cleared. Models with dependencies use the slow delete path, and if the exploit only fixes fast delete, this test would fail.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_delete_with_custom_pk_field(self):\n    # Test with a model that has a custom primary key field name\n    class CustomPKModel(models.Model):\n        custom_id = models.AutoField(primary_key=True)\n        name = models.CharField(max_length=50)\n        \n        class Meta:\n            app_label = 'delete'\n    \n    # Create and delete instance\n    instance = CustomPKModel(name='test')\n    instance.save()\n    original_pk = instance.custom_id\n    \n    # Verify it can be fast-deleted\n    collector = Collector(using='default')\n    self.assertTrue(collector.can_fast_delete(instance))\n    \n    instance.delete()\n    self.assertIsNone(instance.custom_id)\n    \n    # Verify deletion from database\n    with self.assertRaises(CustomPKModel.DoesNotExist):\n        CustomPKModel.objects.get(custom_id=original_pk)",
+              "rationale": "This test ensures the fix works correctly with custom primary key field names. The gold patch uses `model._meta.pk.attname` which should handle custom PK fields correctly, but an exploit might hardcode 'pk' or 'id' field names instead of using the proper meta attribute.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.75
+            },
+            {
+              "test_code": "def test_delete_multiple_instances_pk_cleared(self):\n    # Test that PK is cleared for multiple instances when deleted individually\n    users = [User.objects.create() for _ in range(3)]\n    original_pks = [u.pk for u in users]\n    \n    # Delete each instance and verify PK is cleared\n    for i, user in enumerate(users):\n        collector = Collector(using='default')\n        self.assertTrue(collector.can_fast_delete(user))\n        user.delete()\n        self.assertIsNone(user.pk)\n        \n        # Verify other instances still have their PKs until deleted\n        for j, other_user in enumerate(users):\n            if j <= i:\n                self.assertIsNone(other_user.pk)\n            else:\n                self.assertIsNotNone(other_user.pk)\n                self.assertEqual(other_user.pk, original_pks[j])",
+              "rationale": "This test ensures that the PK clearing works correctly for multiple instances and doesn't have side effects. It verifies that each instance's PK is properly cleared when deleted, and that the fix doesn't accidentally affect other instances or have race conditions.",
+              "targets": [
+                "django__django-11179_exploit_0"
+              ],
+              "confidence": 0.8
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        },
+        {
+          "instance_id": "django__django-11276",
+          "eqs_before": 0.549,
+          "eqs_after": 0.639,
+          "improvement": 0.09,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_escape_with_none_input(self):\n    \"\"\"Test that escape handles None input correctly.\"\"\"\n    from django.utils.html import escape\n    # html.escape(str(None)) should work the same as Django's implementation\n    result = escape(None)\n    self.assertEqual(result, 'None')\n    # Verify it's marked as safe\n    from django.utils.safestring import SafeString\n    self.assertIsInstance(result, SafeString)",
+              "rationale": "This test ensures the function properly converts None to string before escaping. The exploits that only modify quote escaping won't handle this conversion the same way as html.escape(str(text)).",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_escape_with_numeric_input(self):\n    \"\"\"Test that escape handles numeric input correctly.\"\"\"\n    from django.utils.html import escape\n    # Test with various numeric types\n    result_int = escape(42)\n    self.assertEqual(result_int, '42')\n    \n    result_float = escape(3.14)\n    self.assertEqual(result_float, '3.14')\n    \n    # Verify they're marked as safe\n    from django.utils.safestring import SafeString\n    self.assertIsInstance(result_int, SafeString)\n    self.assertIsInstance(result_float, SafeString)",
+              "rationale": "This test verifies that non-string inputs are properly converted to strings before escaping. The exploits that only change quote formatting may not handle the str() conversion consistently with html.escape().",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.85
+            },
+            {
+              "test_code": "def test_escape_performance_and_correctness(self):\n    \"\"\"Test escape with a complex string containing all escapable characters.\"\"\"\n    from django.utils.html import escape\n    # Test string with all characters that should be escaped\n    test_string = '&<>\"\\'\\'test&<>\"\\'\\''\n    result = escape(test_string)\n    \n    # Verify all characters are properly escaped\n    self.assertIn('&amp;', result)\n    self.assertIn('&lt;', result)\n    self.assertIn('&gt;', result)\n    self.assertIn('&quot;', result)\n    self.assertIn('&#x27;', result)  # New format for single quotes\n    \n    # Verify no unescaped dangerous characters remain\n    self.assertNotIn('&', result.replace('&amp;', '').replace('&lt;', '').replace('&gt;', '').replace('&quot;', '').replace('&#x27;', ''))\n    self.assertNotIn('<', result)\n    self.assertNotIn('>', result)\n    \n    # Verify it's marked as safe\n    from django.utils.safestring import SafeString\n    self.assertIsInstance(result, SafeString)",
+              "rationale": "This comprehensive test ensures all HTML-dangerous characters are properly escaped and verifies the result format. Exploit 0 and 2 might not handle the complete escaping correctly since they modify the existing translate approach rather than using html.escape().",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.95
+            }
+          ],
+          "improved": true,
+          "upgraded": false
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "tasks_targeted": 1,
+      "augmentations_generated": 3,
+      "tasks_improved": 1,
+      "tasks_upgraded": 1,
+      "mean_eqs_before": 0.639,
+      "mean_eqs_after": 0.774,
+      "improvement": 0.135,
+      "cost_usd": 0.0342,
+      "per_task": [
+        {
+          "instance_id": "django__django-11276",
+          "eqs_before": 0.639,
+          "eqs_after": 0.774,
+          "improvement": 0.135,
+          "n_augmentations": 3,
+          "augmentations": [
+            {
+              "test_code": "def test_escape_uses_html_escape_function(self):\n    \"\"\"Test that escape function actually uses html.escape() stdlib function.\"\"\"\n    import html\n    from django.utils.html import escape\n    \n    # Test various inputs to ensure behavior matches html.escape exactly\n    test_cases = [\n        'simple text',\n        '<script>alert(\"xss\")</script>',\n        \"mixed 'quotes' and \\\"double\\\" quotes\",\n        '&amp;already&lt;escaped&gt;',\n        'unicode: caf\u00e9 & r\u00e9sum\u00e9',\n        '',\n        '&<>\"\\'\n    ]\n    \n    for text in test_cases:\n        django_result = escape(text)\n        stdlib_result = html.escape(text)\n        self.assertEqual(str(django_result), stdlib_result, \n                        f'Django escape and html.escape should produce identical output for: {repr(text)}')",
+              "rationale": "This test blocks exploits 0 and 2 because they don't actually use html.escape() - they use custom translation/replacement logic that may not handle all edge cases identically to the stdlib function. It ensures the output matches html.escape() exactly for various inputs.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.9
+            },
+            {
+              "test_code": "def test_urlize_uses_html_unescape(self):\n    \"\"\"Test that urlize functionality uses html.unescape instead of custom unescape.\"\"\"\n    from django.utils.html import urlize\n    import html\n    \n    # Test URL with HTML entities that should be unescaped before URL processing\n    html_escaped_url = 'Visit http://example.com?a=1&amp;b=2&lt;test&gt; for more info'\n    result = urlize(html_escaped_url)\n    \n    # The result should contain properly unescaped URL in href\n    self.assertIn('href=\"http://example.com?a=1&b=2<test>\"', result)\n    \n    # Test with quotes in URL parameters\n    url_with_quotes = 'Check http://example.com?msg=&quot;hello&quot;&amp;x=&#39;world&#39;'\n    result = urlize(url_with_quotes)\n    \n    # Should properly unescape quotes in the URL\n    self.assertIn('href=\"http://example.com?msg=\"hello\"&x=\\'world\\'\"', result)",
+              "rationale": "This test blocks all exploits because they don't replace the custom unescape() function with html.unescape(). The gold patch changes urlize to use html.unescape(), but the exploits only focus on the escape() function's quote formatting.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_1",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.95
+            },
+            {
+              "test_code": "def test_escape_performance_and_correctness(self):\n    \"\"\"Test that escape handles edge cases correctly like html.escape.\"\"\"\n    from django.utils.html import escape\n    import html\n    \n    # Test cases that might expose differences in implementation\n    edge_cases = [\n        # Empty string\n        '',\n        # Only special characters\n        '&<>\"\\'',\n        # Mixed with unicode\n        'caf\u00e9 & \"r\u00e9sum\u00e9\" <script>',\n        # Already escaped content\n        '&amp;&lt;&gt;&quot;&#39;',\n        # Numbers and special chars\n        '1 < 2 & 3 > 0 \"test\" \\'quote\\'',\n        # Very long string with quotes\n        'a' * 1000 + '\\'quote\\'' + 'b' * 1000\n    ]\n    \n    for case in edge_cases:\n        django_result = str(escape(case))\n        stdlib_result = html.escape(case)\n        self.assertEqual(django_result, stdlib_result,\n                        f'Results should be identical for: {repr(case)}')\n        \n        # Ensure single quotes are escaped as &#x27; not &#39;\n        if \"'\" in case:\n            self.assertIn('&#x27;', django_result)\n            self.assertNotIn('&#39;', django_result)",
+              "rationale": "This test blocks exploits 0 and 2 by testing edge cases and ensuring the output exactly matches html.escape(). Exploit 0 only changes quote mapping but may not handle all cases identically. Exploit 2's string replacement approach could fail on edge cases or performance requirements.",
+              "targets": [
+                "django__django-11276_exploit_0",
+                "django__django-11276_exploit_2"
+              ],
+              "confidence": 0.85
+            }
+          ],
+          "improved": true,
+          "upgraded": true
+        }
+      ]
+    }
+  ]
+}

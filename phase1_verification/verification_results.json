@@ -1,0 +1,1068 @@
+{
+  "total_tasks_tested": 49,
+  "tasks_with_verified_exploit": 0,
+  "hackability_rate": 0.0,
+  "total_exploits_attempted": 127,
+  "total_exploits_verified": 0,
+  "exploit_success_rate": 0.0,
+  "per_task": {
+    "astropy/astropy-12907": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-12907_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-12907_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-13033": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13033_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13033_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-13236": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13236_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13236_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13236_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-13398": {
+      "exploits_attempted": 1,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13398_exploit_0.log"
+        }
+      ]
+    },
+    "astropy/astropy-13453": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13453_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13453_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13453_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-13579": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13579_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13579_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13579_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-13977": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13977_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13977_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-13977_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-14096": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14096_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14096_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14096_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-14182": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14182_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14182_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-14309": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14309_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14309_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14309_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-14365": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14365_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14365_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14365_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-14369": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14369_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14369_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-14508": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14508_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14508_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-14539": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14539_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14539_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-14598": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14598_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14598_exploit_1.log"
+        }
+      ]
+    },
+    "astropy/astropy-14995": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14995_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14995_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-14995_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-7166": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7166_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7166_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7166_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-7336": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7336_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7336_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7336_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-7606": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7606_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7606_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7606_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-7671": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7671_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7671_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-7671_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-8707": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8707_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8707_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8707_exploit_2.log"
+        }
+      ]
+    },
+    "astropy/astropy-8872": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8872_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8872_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "astropy__astropy-8872_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-10097": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10097_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10097_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-10554": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10554_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10554_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-10880": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10880_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10880_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10880_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-10914": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10914_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10914_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10914_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-10973": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10973_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10973_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10973_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-10999": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10999_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10999_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-10999_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11066": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11066_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11066_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11066_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11087": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11087_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11087_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11087_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11095": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11095_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11095_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11099": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11099_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11099_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11119": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11119_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11119_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11119_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11133": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11133_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11133_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11133_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11138": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11138_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11138_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11141": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11141_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11141_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11141_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11149": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11149_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11149_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11163": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11163_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11163_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11163_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11179": {
+      "exploits_attempted": 1,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11179_exploit_0.log"
+        }
+      ]
+    },
+    "django/django-11211": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11211_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11211_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11239": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11239_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11239_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11239_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11265": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11265_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11265_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11265_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11276": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11276_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11276_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11276_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11292": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11292_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11292_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11299": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11299_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11299_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11299_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11333": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11333_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11333_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11333_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11400": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11400_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11400_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11400_exploit_2.log"
+        }
+      ]
+    },
+    "django/django-11433": {
+      "exploits_attempted": 2,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11433_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11433_exploit_1.log"
+        }
+      ]
+    },
+    "django/django-11451": {
+      "exploits_attempted": 3,
+      "exploits_verified": 0,
+      "exploit_details": [
+        {
+          "exploit_index": "0",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11451_exploit_0.log"
+        },
+        {
+          "exploit_index": "1",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11451_exploit_1.log"
+        },
+        {
+          "exploit_index": "2",
+          "verified": false,
+          "has_error": true,
+          "log_file": "django__django-11451_exploit_2.log"
+        }
+      ]
+    }
+  },
+  "outcome": "CHECK",
+  "outcome_detail": "No verified exploits. Exploit patches may have format issues."
+}
