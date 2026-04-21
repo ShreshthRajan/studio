@@ -66,10 +66,21 @@ def main():
         tests = task["test_list"]
         imports = task.get("test_imports", [])
 
-        # Format as chat for GRPO
+        # Include first test case in prompt so model knows the expected function
+        # signature (standard MBPP evaluation practice — without this the model
+        # cannot know what to name its function and all tests fail with NameError).
+        first_test = tests[0] if tests else ""
+        prompt_text = (
+            f"You are an expert Python programmer. "
+            f"Write a Python function that solves the following problem.\n\n"
+            f"Problem: {prompt}\n\n"
+            f"Your function must satisfy this test case:\n{first_test}\n\n"
+            f"Return only the Python function code, wrapped in ```python ... ```."
+        )
+
         formatted = {
             "task_id": tid,
-            "prompt": f"Write a Python function to solve the following problem.\n\n{prompt}\n\nReturn only the function code.",
+            "prompt": prompt_text,
             "gold_code": code,
             "test_list": tests,
             "test_imports": imports,
@@ -95,11 +106,20 @@ def main():
     eval_tasks = []
     for i in range(100, len(ds_test)):  # Remaining test tasks
         task = ds_test[i]
+        eval_tests = task["test_list"]
+        eval_first_test = eval_tests[0] if eval_tests else ""
+        eval_prompt = (
+            f"You are an expert Python programmer. "
+            f"Write a Python function that solves the following problem.\n\n"
+            f"Problem: {task['prompt']}\n\n"
+            f"Your function must satisfy this test case:\n{eval_first_test}\n\n"
+            f"Return only the Python function code, wrapped in ```python ... ```."
+        )
         eval_tasks.append({
             "task_id": task["task_id"],
-            "prompt": f"Write a Python function to solve the following problem.\n\n{task['prompt']}\n\nReturn only the function code.",
+            "prompt": eval_prompt,
             "gold_code": task["code"],
-            "test_list": task["test_list"],
+            "test_list": eval_tests,
             "test_imports": task.get("test_imports", []),
         })
 

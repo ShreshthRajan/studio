@@ -21,6 +21,7 @@ Usage locally (for testing with --dry-run):
 import json
 import sys
 import os
+import re
 import subprocess
 import tempfile
 import logging
@@ -50,13 +51,64 @@ def code_execution_reward(prompts: List[str], completions: List[str],
     return rewards
 
 
+def _extract_code(text: str) -> str:
+    """Extract executable Python code from model output.
+
+    Handles:
+      - Qwen3 thinking traces: <think>...</think> (stripped)
+      - Markdown code fences: ```python ... ``` (extracted)
+      - Prose prefix before a def/import/class (trimmed)
+      - Trailing prose after code (trimmed via ast.parse back-off)
+    """
+    if not text:
+        return ""
+
+    # Strip Qwen3 reasoning/thinking traces
+    text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
+    # Also strip any unclosed think blocks at start
+    text = re.sub(r'^.*?</think>', '', text, flags=re.DOTALL)
+
+    # Prefer the first fenced Python block if present
+    fence_match = re.search(r'```(?:python)?\s*\n?(.*?)```', text, re.DOTALL)
+    if fence_match:
+        return fence_match.group(1).strip()
+
+    # No fence: strip common prose prefixes by finding the first code token.
+    code_start = re.search(r'^(def |import |from |class |@)', text, re.MULTILINE)
+    if code_start:
+        text = text[code_start.start():]
+
+    text = text.strip()
+    if not text:
+        return ""
+
+    # Strip trailing prose via ast back-off: pop one line at a time from
+    # the end until the remaining text parses as valid Python (or we run
+    # out of lines). This handles "def foo():\n    ...\n\nThat's it!"
+    import ast
+    lines = text.split("\n")
+    while lines:
+        candidate = "\n".join(lines)
+        try:
+            ast.parse(candidate)
+            return candidate
+        except SyntaxError:
+            lines.pop()
+    return text
+
+
 def _execute_and_check(code: str, tests: List[str], imports: List[str],
                        timeout: int = 5) -> float:
-    """Execute code + tests in a subprocess, return 1.0 if all pass."""
+    """Execute code + tests in a subprocess, return 1.0 if all pass.
+
+    The `code` input may be raw model output (with think tags, markdown
+    fences, or prose); _extract_code handles the cleanup.
+    """
+    extracted = _extract_code(code)
     # Build the test script
     import_block = "\n".join(imports) if imports else ""
     test_block = "\n".join(tests)
-    script = f"{import_block}\n{code}\n{test_block}"
+    script = f"{import_block}\n{extracted}\n{test_block}"
 
     try:
         result = subprocess.run(
@@ -96,15 +148,46 @@ def format_for_grpo(tasks: List[Dict]) -> List[Dict]:
     return formatted
 
 
+# ─── Chat Formatting ───────────────────────────────────────────────────
+
+def format_chat_prompt(prompt_text: str, tokenizer) -> str:
+    """Apply the tokenizer's chat template to a user prompt.
+
+    Qwen3 (and most modern instruct models) require chat-formatted input
+    with role tags. Raw text prompts produce degenerate completions.
+
+    Disables Qwen3's reasoning/thinking mode when supported, so the model
+    emits code directly instead of long <think>...</think> traces that
+    consume the generation budget.
+    """
+    messages = [{"role": "user", "content": prompt_text}]
+    # Qwen3 tokenizers accept enable_thinking; older tokenizers do not.
+    try:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+            enable_thinking=False,
+        )
+    except TypeError:
+        return tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+
+
 # ─── Evaluation ────────────────────────────────────────────────────────
 
 def evaluate_model(model, tokenizer, eval_tasks: List[Dict],
                    max_new_tokens: int = 512, n_samples: int = 1) -> Dict:
     """Evaluate a trained model on held-out tasks.
 
-    Generates code for each task, executes against full test suites,
-    computes pass@1 (and optionally pass@k).
+    Generates code for each task (using the chat template), extracts
+    executable code from the output, and executes against full test
+    suites. Computes pass@1.
     """
+    import torch
     results = []
     total_pass = 0
 
@@ -113,9 +196,10 @@ def evaluate_model(model, tokenizer, eval_tasks: List[Dict],
         tests = task["test_list"]
         imports = task.get("test_imports", [])
 
-        # Generate code
-        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-        with __import__("torch").no_grad():
+        # Apply chat template so the model responds as an assistant.
+        chat_text = format_chat_prompt(prompt, tokenizer)
+        inputs = tokenizer(chat_text, return_tensors="pt").to(model.device)
+        with torch.no_grad():
             outputs = model.generate(
                 **inputs,
                 max_new_tokens=max_new_tokens,
@@ -123,10 +207,12 @@ def evaluate_model(model, tokenizer, eval_tasks: List[Dict],
                 do_sample=True,
                 pad_token_id=tokenizer.eos_token_id,
             )
-        generated = tokenizer.decode(outputs[0][inputs["input_ids"].shape[1]:],
-                                     skip_special_tokens=True)
+        generated = tokenizer.decode(
+            outputs[0][inputs["input_ids"].shape[1]:],
+            skip_special_tokens=True,
+        )
 
-        # Execute against full tests
+        # _execute_and_check handles code extraction internally.
         passed = _execute_and_check(generated, tests, imports) == 1.0
         if passed:
             total_pass += 1
@@ -159,6 +245,7 @@ def train_grpo(
     learning_rate: float = 5e-6,
     max_prompt_length: int = 512,
     max_completion_length: int = 512,
+    eval_limit: Optional[int] = None,
 ):
     """Train Qwen3-4B with GRPO using Unsloth.
 
@@ -167,6 +254,8 @@ def train_grpo(
         data_dir: Directory containing train_all.jsonl, train_filtered.jsonl, eval.jsonl
         output_dir: Where to save the trained model and results
         num_train_steps: Number of GRPO training steps
+        eval_limit: If set, evaluate on only the first N held-out tasks.
+                    Useful for fast iteration; defaults to full eval set.
     """
     # Select dataset
     if group == "A":
@@ -180,6 +269,8 @@ def train_grpo(
 
     train_data = load_jsonl(train_path)
     eval_data = load_jsonl(os.path.join(data_dir, "eval.jsonl"))
+    if eval_limit is not None:
+        eval_data = eval_data[:eval_limit]
     logger.info("Group %s: %s", group, label)
     logger.info("Training tasks: %d, Eval tasks: %d", len(train_data), len(eval_data))
 
@@ -213,18 +304,25 @@ def train_grpo(
     from trl import GRPOConfig, GRPOTrainer
     from datasets import Dataset
 
-    # Format training data for GRPO
+    # Format training data for GRPO.
+    # We chat-template the prompts here so the model sees properly-formatted
+    # user turns during rollouts. Tests are keyed by the chat-templated
+    # prompt so the reward function can look them up from what GRPO passes
+    # back.
     train_formatted = format_for_grpo(train_data)
-    train_dataset = Dataset.from_list([{"prompt": t["prompt"]} for t in train_formatted])
+    chat_prompts = [format_chat_prompt(t["prompt"], tokenizer) for t in train_formatted]
+    train_dataset = Dataset.from_list([{"prompt": cp} for cp in chat_prompts])
 
-    # Build reward function that looks up tests by prompt
-    prompt_to_tests = {t["prompt"]: (t["test_list"], t.get("test_imports", [])) for t in train_formatted}
+    prompt_to_tests: Dict[str, tuple] = {}
+    for cp, t in zip(chat_prompts, train_formatted):
+        prompt_to_tests[cp] = (t["test_list"], t.get("test_imports", []))
 
     def reward_fn(prompts, completions, **kwargs):
         rewards = []
         for prompt, completion in zip(prompts, completions):
             tests, imports = prompt_to_tests.get(prompt, ([], []))
-            # Extract just the text content from completion
+            # Completions are strings; _execute_and_check handles extraction
+            # of code from markdown fences / thinking traces.
             text = completion if isinstance(completion, str) else str(completion)
             reward = _execute_and_check(text, tests, imports)
             rewards.append(reward)
@@ -339,6 +437,9 @@ def main():
                         help="Directory for model checkpoints and results")
     parser.add_argument("--steps", type=int, default=100,
                         help="Number of GRPO training steps")
+    parser.add_argument("--eval-limit", type=int, default=None,
+                        help="Evaluate on only the first N held-out tasks "
+                             "(default: full eval set). Use for fast iteration.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Test data loading and reward function without training")
     args = parser.parse_args()
@@ -360,6 +461,7 @@ def main():
         data_dir=args.data_dir,
         output_dir=args.output_dir,
         num_train_steps=args.steps,
+        eval_limit=args.eval_limit,
     )
 
     print(f"\nGroup {args.group} results:")
@@ -392,9 +494,25 @@ def _dry_run(data_dir: str):
     print(f"    Correct code reward: {r_correct} (expected 1.0)")
     print(f"    Wrong code reward:   {r_wrong} (expected 0.0)")
 
-    # Test with weak test (only first assertion)
-    r_wrong_weak = _execute_and_check(wrong_code, [tests[0]], [])
-    print(f"    Wrong code with weak test: {r_wrong_weak} (demonstrates hackability)")
+    # Test with weak test (only first assertion that the wrong code happens to satisfy)
+    hackable_code = "def add(a, b):\n    return 3"  # hardcodes first test's answer
+    r_hack_weak = _execute_and_check(hackable_code, [tests[0]], [])
+    r_hack_full = _execute_and_check(hackable_code, tests, [])
+    print(f"    Hackable code with weak test:  {r_hack_weak} (demonstrates hackability)")
+    print(f"    Hackable code with full tests: {r_hack_full} (should be 0.0)")
+
+    # Test the code extractor on realistic model output
+    print("\n  Testing code extraction (handles think tags + markdown fences)...")
+    model_output = (
+        "<think>Let me solve this step by step. I need to add two numbers.</think>\n"
+        "Sure! Here's the solution:\n\n"
+        "```python\n"
+        "def add(a, b):\n"
+        "    return a + b\n"
+        "```"
+    )
+    r_extracted = _execute_and_check(model_output, tests, [])
+    print(f"    Model output with think+fence reward: {r_extracted} (expected 1.0)")
 
     print("\n  Dry run complete. Ready for Colab training.")
 
