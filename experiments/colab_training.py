@@ -348,10 +348,10 @@ def train_grpo(
 
     trainer = GRPOTrainer(
         model=model,
-        config=grpo_config,
+        args=grpo_config,
         train_dataset=train_dataset,
         reward_funcs=[reward_fn],
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
     )
 
     # --- Train ---
