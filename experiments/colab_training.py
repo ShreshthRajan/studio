@@ -257,6 +257,8 @@ def train_grpo(
         eval_limit: If set, evaluate on only the first N held-out tasks.
                     Useful for fast iteration; defaults to full eval set.
     """
+    import torch
+
     # Select dataset
     if group == "A":
         train_path = os.path.join(data_dir, "train_all.jsonl")
@@ -339,7 +341,8 @@ def train_grpo(
         logging_steps=10,
         save_steps=num_train_steps,  # Save at end
         report_to="none",
-        bf16=True,
+        bf16=torch.cuda.is_bf16_supported(),
+        fp16=not torch.cuda.is_bf16_supported(),
         seed=42,
     )
 
