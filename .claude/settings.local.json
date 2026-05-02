@@ -51,7 +51,13 @@
       "Bash(ls /Users/shreshth.rajan/projects/studio/.env*)",
       "Bash(export ANTHROPIC_API_KEY=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)",
       "Bash(ps -p 87875 -o pid,stat,etime)",
-      "WebFetch(domain:api.github.com)"
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:colab.research.google.com)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'fix: auto-detect bf16/fp16 for T4 compatibility *)",
+      "Bash(git push *)",
+      "Bash(git commit *)",
+      "WebFetch(domain:cameronrwolfe.substack.com)"
     ]
   }
 }
